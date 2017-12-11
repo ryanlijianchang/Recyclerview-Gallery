@@ -1,8 +1,8 @@
 package com.ryan.rv_gallery.util;
 
+import android.app.Activity;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
-import android.util.TypedValue;
 
 /**
  * Created by RyanLee on 2017/11/29.
@@ -10,19 +10,32 @@ import android.util.TypedValue;
 
 public class OsUtil {
     public static int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density);
-    }
-
-    public static float dipToPixels(float dipValue) {
-        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
+        return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5f);
     }
 
     public static int pxToDp(int px) {
-        return (int) (px / Resources.getSystem().getDisplayMetrics().density);
+        return (int) (px / Resources.getSystem().getDisplayMetrics().density + 0.5f);
     }
 
-    public static float spToPt(int sp) {
-        return sp * Resources.getSystem().getDisplayMetrics().density;
+
+    /**
+     * 获取屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth() {
+        return Resources.getSystem().getDisplayMetrics().widthPixels;
+    }
+
+    /**
+     * 获取屏幕宽度
+     *
+     * @return
+     */
+    public static int getScreenWidth(Activity activity) {
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
+
     }
 }

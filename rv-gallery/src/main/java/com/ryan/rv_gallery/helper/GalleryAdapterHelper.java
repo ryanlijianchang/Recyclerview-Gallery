@@ -1,21 +1,15 @@
 package com.ryan.rv_gallery.helper;
 
-import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.ryan.rv_gallery.util.OsUtil;
 
-import java.util.HashMap;
-import java.util.Map;
-
 /***
  * Created by RyanLee on 2017/12/8.
  */
 public class GalleryAdapterHelper {
-    private final String TAG = "GalleryAdapterHelper";
 
     int mPageMargin = 0;          // 每一个页面默认页边距
     int mLeftPageVisibleWidth = 30; // 中间页面左右两边的页面可见部分宽度
@@ -58,7 +52,7 @@ public class GalleryAdapterHelper {
             mWidthChange = true;
         }
 
-        if (mWidthChange && mMarginChange) {
+        if (mWidthChange || mMarginChange) {
             itemView.setLayoutParams(lp);
         }
 
