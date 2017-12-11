@@ -1,7 +1,13 @@
 package com.ryan.rv_gallery.helper;
 
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 
 import com.ryan.rv_gallery.GalleryRecyclerView;
 import com.ryan.rv_gallery.util.DLog;
@@ -70,25 +76,77 @@ public class RecyclerHelper {
 
             int pageVisibleWidth = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth);
             int pageMargin = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mPageMargin);
-            // 获取卡片的宽度(屏幕宽度 - （2倍左卡片可见宽度 + 4倍页边距))
-            int itemWidth = OsUtil.getScreenWidth() - (pageVisibleWidth * 2 + pageMargin * 4);
+            // 理论消耗距离 = 卡片宽度 + 2倍边距
+            // 卡片宽度 = 屏幕宽度 - 2倍pageVisibleWidth - 4倍pageMargin
+            // 所以 理论消耗距离 = 屏幕宽度 - 2倍pageVisibleWidth - 2倍pageMargin
+            int shouldConsumeX = OsUtil.getScreenWidth() - (pageVisibleWidth * 2 + pageMargin * 2);
             // 获取当前的位置
-            int position = getPosition(mConsumeX, itemWidth);
+            int position = getPosition(mConsumeX, shouldConsumeX);
+            // 获取偏移量
+            //float offset = getOffset(mConsumeX, shouldConsumeX);
+
+
+            float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
+
+            if (offset >= ((LinearLayoutManager) mGalleryRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() + 1) {
+                return;
+            }
+
+            float percent = offset / ((int) offset + 1);
+
+            // 设置动画变化
+            setScaleAnim(recyclerView, position, percent);
+        }
+    }
+
+    private void setScaleAnim(RecyclerView recyclerView, int position, float percent) {
+        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1);
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);
+
+        switch (slideDirct) {
+            // 右滑
+            case SLIDE_RIGHT:
+                float mScale = 0.3f;
+                if (mCurView != null) {
+                    DLog.d("Scale", "mCurView" + (1 - percent * mScale) + "; percent = " + percent);
+                }
+                if (mRightView != null) {
+                    DLog.d("Scale", "mRightView" + (0.7f + percent * mScale) + "; percent = " + percent);
+                }
+
+                break;
+            case SLIDE_LEFT:
+                break;
         }
     }
 
     /**
      * 获取位置
      *
-     * @param mConsumeX
-     * @param itemWidth
+     * @param mConsumeX      实际消耗距离
+     * @param shouldConsumeX 理论消耗距离
      * @return
      */
-    private int getPosition(int mConsumeX, int itemWidth) {
-        float position = mConsumeX / itemWidth;     // 位置浮点值
-        int roundPos = Math.round(position);        // 四舍五入获取位置值
-        DLog.d("getPosition() --> mConsumeX = " + mConsumeX + "; itemWidth = " + itemWidth + "; position = " + position + "; roundPos = " + roundPos);
-        return roundPos;
+    private int getPosition(int mConsumeX, int shouldConsumeX) {
+        float offset = (float) mConsumeX / (float) shouldConsumeX;
+        int position = Math.round(offset);        // 四舍五入获取位置值
+        DLog.d("getPosition() --> mConsumeX = " + mConsumeX + "; shouldConsumeX = " + shouldConsumeX + "; offset = " + offset + "; position = " + position);
+        return position;
+    }
+
+    /**
+     * 获取偏移量
+     *
+     * @param mConsumeX
+     * @param shouldConsumeX
+     * @return
+     */
+    private float getOffset(int mConsumeX, int shouldConsumeX) {
+
+        float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
+        DLog.d("getOffset() --> mConsumeX = " + mConsumeX + "; shouldConsumeX = " + shouldConsumeX + "; offset = " + (int) offset);
+        return offset / ((int) offset + 1);
     }
 
 

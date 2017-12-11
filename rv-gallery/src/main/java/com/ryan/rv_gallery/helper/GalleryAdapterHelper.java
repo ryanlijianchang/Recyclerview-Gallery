@@ -29,9 +29,9 @@ public class GalleryAdapterHelper {
             @Override
             public void run() {
 
-                int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(2 * (mPageMargin + mLeftPageVisibleWidth));
-                int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + mPageMargin) : OsUtil.dpToPx(mPageMargin);
-                int rightMargin = position == itemCount - 1 ? OsUtil.dpToPx(mLeftPageVisibleWidth + mPageMargin) : OsUtil.dpToPx(mPageMargin);
+                int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
+                int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
+                int rightMargin = position == itemCount - 1 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
 
                 setLayoutParams(itemView, leftMargin, 0, rightMargin, 0, itemNewWidth);
             }
@@ -55,6 +55,5 @@ public class GalleryAdapterHelper {
         if (mWidthChange || mMarginChange) {
             itemView.setLayoutParams(lp);
         }
-
     }
 }
