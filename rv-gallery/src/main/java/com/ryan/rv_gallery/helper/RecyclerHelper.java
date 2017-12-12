@@ -1,13 +1,9 @@
 package com.ryan.rv_gallery.helper;
 
-import android.animation.ObjectAnimator;
-import android.animation.PropertyValuesHolder;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.ScaleAnimation;
 
 import com.ryan.rv_gallery.GalleryRecyclerView;
 import com.ryan.rv_gallery.util.DLog;
@@ -108,68 +104,38 @@ public class RecyclerHelper {
         View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1);
         View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);
 
-        switch (slideDirct) {
-            // 右滑
-            case SLIDE_RIGHT:
-                if (percent <= 0.5) {
-                    if (mLeftView != null) {
-                        mLeftView.setScaleX((1 - mScale) + percent * mScale);
-                        mLeftView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                    if (mCurView != null) {
-                        mCurView.setScaleX(1 - percent * mScale);
-                        mCurView.setScaleY(1 - percent * mScale);
-                    }
-                    if (mRightView != null) {
-                        mRightView.setScaleX((1 - mScale) + percent * mScale);
-                        mRightView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                } else {
-                    if (mLeftView != null) {
-                        mLeftView.setScaleX(1 - percent * mScale);
-                        mLeftView.setScaleY(1 - percent * mScale);
-                    }
-                    if (mCurView != null) {
-                        mCurView.setScaleX((1 - mScale) + percent * mScale);
-                        mCurView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                    if (mRightView != null) {
-                        mRightView.setScaleX(1 - percent * mScale);
-                        mRightView.setScaleY(1 - percent * mScale);
-                    }
-                }
-
-                break;
-            case SLIDE_LEFT:
-                if (percent <= 0.5) {
-                    if (mLeftView != null) {
-                        mLeftView.setScaleX((1 - mScale) + percent * mScale);
-                        mLeftView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                    if (mCurView != null) {
-                        mCurView.setScaleX(1 - percent * mScale);
-                        mCurView.setScaleY(1 - percent * mScale);
-                    }
-                    if (mRightView != null) {
-                        mRightView.setScaleX((1 - mScale) + percent * mScale);
-                        mRightView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                } else {
-                    if (mLeftView != null) {
-                        mLeftView.setScaleX(1 - percent * mScale);
-                        mLeftView.setScaleY(1 - percent * mScale);
-                    }
-                    if (mCurView != null) {
-                        mCurView.setScaleX((1 - mScale) + percent * mScale);
-                        mCurView.setScaleY((1 - mScale) + percent * mScale);
-                    }
-                    if (mRightView != null) {
-                        mRightView.setScaleX(1 - percent * mScale);
-                        mRightView.setScaleY(1 - percent * mScale);
-                    }
-                }
-
-                break;
+        if (percent <= 0.5) {
+            if (mLeftView != null) {
+                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
+                mLeftView.setScaleX((1 - mScale) + percent * mScale);
+                mLeftView.setScaleY((1 - mScale) + percent * mScale);
+            }
+            if (mCurView != null) {
+                DLog.d("scale --> " + (1 - percent * mScale));
+                mCurView.setScaleX(1 - percent * mScale);
+                mCurView.setScaleY(1 - percent * mScale);
+            }
+            if (mRightView != null) {
+                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
+                mRightView.setScaleX((1 - mScale) + percent * mScale);
+                mRightView.setScaleY((1 - mScale) + percent * mScale);
+            }
+        } else {
+            if (mLeftView != null) {
+                DLog.d("scale --> " + (1 - percent * mScale));
+                mLeftView.setScaleX(1 - percent * mScale);
+                mLeftView.setScaleY(1 - percent * mScale);
+            }
+            if (mCurView != null) {
+                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
+                mCurView.setScaleX((1 - mScale) + percent * mScale);
+                mCurView.setScaleY((1 - mScale) + percent * mScale);
+            }
+            if (mRightView != null) {
+                DLog.d("scale --> " + (1 - percent * mScale));
+                mRightView.setScaleX(1 - percent * mScale);
+                mRightView.setScaleY(1 - percent * mScale);
+            }
         }
     }
 

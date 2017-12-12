@@ -10,15 +10,17 @@ import java.util.List;
 public class TestUtil {
     public static List<Integer> testDatas() {
         List<Integer> tDatas = new ArrayList<>();
-        tDatas.add(R.drawable.star1);
-        tDatas.add(R.drawable.star2);
-        tDatas.add(R.drawable.star3);
-        tDatas.add(R.drawable.star4);
-        tDatas.add(R.drawable.star5);
-        tDatas.add(R.drawable.star6);
-        tDatas.add(R.drawable.star1);
-        tDatas.add(R.drawable.star8);
-        tDatas.add(R.drawable.star9);
+        for (int i = 0; i < 3; i++) {
+            tDatas.add(R.drawable.star1);
+            tDatas.add(R.drawable.star2);
+            tDatas.add(R.drawable.star3);
+            tDatas.add(R.drawable.star4);
+            tDatas.add(R.drawable.star5);
+            tDatas.add(R.drawable.star6);
+            tDatas.add(R.drawable.star1);
+            tDatas.add(R.drawable.star8);
+            tDatas.add(R.drawable.star9);
+        }
         return tDatas;
     }
 }

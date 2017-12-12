@@ -11,7 +11,7 @@ import android.view.ViewGroup;
  */
 
 public class GalleryRecyclerView extends RecyclerView {
-    private static final int FLING_MAX_VELOCITY = 3000; // 最大顺时滑动速度
+    private static final int FLING_SPEED = 1000; // 滑动速度
 
 
     public GalleryRecyclerView(Context context) {
@@ -28,16 +28,16 @@ public class GalleryRecyclerView extends RecyclerView {
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
-        velocityX = solveVelocity(velocityX);
-        velocityY = solveVelocity(velocityY);
+        velocityX = balancelocity(velocityX);
+        velocityY = balancelocity(velocityY);
         return super.fling(velocityX, velocityY);
     }
 
-    private int solveVelocity(int velocity) {
+    private int balancelocity(int velocity) {
         if (velocity > 0) {
-            return Math.min(velocity, FLING_MAX_VELOCITY);
+            return Math.min(velocity, FLING_SPEED);
         } else {
-            return Math.max(velocity, -FLING_MAX_VELOCITY);
+            return Math.max(velocity, -FLING_SPEED);
         }
     }
 }
