@@ -23,6 +23,14 @@ public class GalleryAdapterHelper {
         return mHelper;
     }
 
+    /**
+     * 动态修改每一页的参数：修改每一页的宽度（除去四倍的页边距局和两倍的左右页面可见距离）
+     * 注意:需要在onBindViewHolder方法里面调用，避免RecyclerView对Holder的重用不调用onCreateViewHolder方法
+     * @param parent
+     * @param itemView
+     * @param position
+     * @param itemCount
+     */
     public void setItemLayoutParams(final ViewGroup parent, final View itemView, final int position, final int itemCount) {
 
         parent.post(new Runnable() {
@@ -30,6 +38,8 @@ public class GalleryAdapterHelper {
             public void run() {
 
                 int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
+
+                // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
                 int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
                 int rightMargin = position == itemCount - 1 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
 
@@ -52,6 +62,7 @@ public class GalleryAdapterHelper {
             mWidthChange = true;
         }
 
+        // 因为方法会不断调用，只有在真正变化了之后才调用
         if (mWidthChange || mMarginChange) {
             itemView.setLayoutParams(lp);
         }

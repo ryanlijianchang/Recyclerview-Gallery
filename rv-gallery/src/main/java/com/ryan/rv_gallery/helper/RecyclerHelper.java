@@ -26,8 +26,6 @@ public class RecyclerHelper {
     private static final int SLIDE_LEFT = 1;    // 左滑
     private static final int SLIDE_RIGHT = 2;   // 右滑
 
-    private static final float mScale = 0.1f;
-
 
     public RecyclerHelper(GalleryRecyclerView mGalleryRecyclerView) {
         this.mGalleryRecyclerView = mGalleryRecyclerView;
@@ -79,56 +77,22 @@ public class RecyclerHelper {
             int shouldConsumeX = OsUtil.getScreenWidth() - (pageVisibleWidth * 2 + pageMargin * 2);
             // 获取当前的位置
             int position = getPosition(mConsumeX, shouldConsumeX);
-            // 获取偏移量
-            //float offset = getOffset(mConsumeX, shouldConsumeX);
 
+            float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
 
-            float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
-
+            // 避免offset值取整时进一，从而影响了percent值
             if (offset >= ((LinearLayoutManager) mGalleryRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
                 return;
             }
 
+            // 获取当前页移动的百分值
             float percent = offset - ((int) offset);
 
             // 设置动画变化
-            setScaleAnim(recyclerView, position, percent);
+            AnimHelper.setBottomToTopAnim(recyclerView, position, percent);
         }
     }
 
-    private void setScaleAnim(RecyclerView recyclerView, int position, float percent) {
-        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);
-        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1);
-        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);
-
-        if (percent <= 0.5) {
-            if (mLeftView != null) {
-                mLeftView.setScaleX((1 - mScale) + percent * mScale);
-                mLeftView.setScaleY((1 - mScale) + percent * mScale);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX(1 - percent * mScale);
-                mCurView.setScaleY(1 - percent * mScale);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX((1 - mScale) + percent * mScale);
-                mRightView.setScaleY((1 - mScale) + percent * mScale);
-            }
-        } else {
-            if (mLeftView != null) {
-                mLeftView.setScaleX(1 - percent * mScale);
-                mLeftView.setScaleY(1 - percent * mScale);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX((1 - mScale) + percent * mScale);
-                mCurView.setScaleY((1 - mScale) + percent * mScale);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX(1 - percent * mScale);
-                mRightView.setScaleY(1 - percent * mScale);
-            }
-        }
-    }
 
     /**
      * 获取位置
@@ -139,21 +103,8 @@ public class RecyclerHelper {
      */
     private int getPosition(int mConsumeX, int shouldConsumeX) {
         float offset = (float) mConsumeX / (float) shouldConsumeX;
-        int position = Math.round(offset);        // 四舍五入获取位置值
+        int position = Math.round(offset);        // 四舍五入获取位置
         return position;
-    }
-
-    /**
-     * 获取偏移量
-     *
-     * @param mConsumeX
-     * @param shouldConsumeX
-     * @return
-     */
-    private float getOffset(int mConsumeX, int shouldConsumeX) {
-
-        float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
-        return offset / ((int) offset + 1);
     }
 
 

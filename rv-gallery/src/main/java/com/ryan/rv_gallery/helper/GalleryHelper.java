@@ -23,8 +23,8 @@ public class GalleryHelper {
             return this;
         }
 
-        public Builder initPageParams(int pagePadding, int leftPageVisibleWidth) {
-            GalleryAdapterHelper.newInstance().mPageMargin = pagePadding;
+        public Builder initPageParams(int pageMargin, int leftPageVisibleWidth) {
+            GalleryAdapterHelper.newInstance().mPageMargin = pageMargin;
             GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth = leftPageVisibleWidth;
             return this;
         }
