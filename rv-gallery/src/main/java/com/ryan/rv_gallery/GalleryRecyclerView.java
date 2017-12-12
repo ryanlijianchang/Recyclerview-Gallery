@@ -52,7 +52,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * 连接RecyclerHelper
      */
     private void attachToRecyclerHelper() {
-        RecyclerHelper recyclerHelper = new RecyclerHelper(this);
+        ScrollManager recyclerHelper = new ScrollManager(this);
         recyclerHelper.initSnapHelper();
         recyclerHelper.initScrollListener();
     }
@@ -88,7 +88,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimFactor(float factor) {
-        AnimHelper.getInstance().setmAnimFactor(factor);
+        AnimManager.getInstance().setmAnimFactor(factor);
         return this;
     }
 
@@ -99,7 +99,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimType(int type) {
-        AnimHelper.getInstance().setmAnimType(type);
+        AnimManager.getInstance().setmAnimType(type);
         return this;
     }
 

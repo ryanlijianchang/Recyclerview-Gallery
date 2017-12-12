@@ -11,7 +11,7 @@ import com.ryan.rv_gallery.util.OsUtil;
  * Created by RyanLee on 2017/12/8.
  */
 
-public class RecyclerHelper {
+public class ScrollManager {
 
     private GalleryRecyclerView mGalleryRecyclerView;
 
@@ -29,7 +29,7 @@ public class RecyclerHelper {
     private static final int SLIDE_BOTTOM = 4;  // 下滑
 
 
-    public RecyclerHelper(GalleryRecyclerView mGalleryRecyclerView) {
+    public ScrollManager(GalleryRecyclerView mGalleryRecyclerView) {
         this.mGalleryRecyclerView = mGalleryRecyclerView;
 
         if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
@@ -109,7 +109,7 @@ public class RecyclerHelper {
 
 
                 // 设置动画变化
-                AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
+                AnimManager.getInstance().setAnimation(recyclerView, position, percent);
             }
         });
     }
@@ -150,7 +150,7 @@ public class RecyclerHelper {
                 float percent = offset - ((int) offset);
 
                 // 设置动画变化
-                AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
+                AnimManager.getInstance().setAnimation(recyclerView, position, percent);
             }
         });
 

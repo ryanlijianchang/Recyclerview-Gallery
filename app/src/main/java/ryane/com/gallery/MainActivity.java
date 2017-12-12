@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 
-import com.ryan.rv_gallery.AnimHelper;
+import com.ryan.rv_gallery.AnimManager;
 import com.ryan.rv_gallery.GalleryRecyclerView;
 
 import java.util.ArrayList;
@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f).setAnimType(AnimHelper.ANIM_BOTTOM_TO_TOP);
+        mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f).setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP);
     }
 
 

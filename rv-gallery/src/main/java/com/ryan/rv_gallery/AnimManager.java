@@ -8,8 +8,8 @@ import android.view.View;
  * Created by RyanLee on 2017/12/12.
  */
 
-public class AnimHelper {
-    private static AnimHelper INSTANCE;
+public class AnimManager {
+    private static AnimManager INSTANCE;
 
     public static final int ANIM_BOTTOM_TO_TOP = 0;
     public static final int ANIM_TOP_TO_BOTTOM = 1;
@@ -17,9 +17,9 @@ public class AnimHelper {
     private int mAnimType = ANIM_BOTTOM_TO_TOP; //动画类型
     private float mAnimFactor = 0.2f;   //变化因子
 
-    public static AnimHelper getInstance() {
+    public static AnimManager getInstance() {
         if (INSTANCE == null) {
-            INSTANCE = new AnimHelper();
+            INSTANCE = new AnimManager();
         }
         return INSTANCE;
     }

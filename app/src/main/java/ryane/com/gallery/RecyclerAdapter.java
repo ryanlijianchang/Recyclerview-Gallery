@@ -45,6 +45,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         Log.d(TAG, "onBindViewHolder" + "--> position = " + position);
+        // 需要增加此代码修改每一页的宽高
         GalleryAdapterHelper.newInstance().setItemLayoutParams(mParent, holder.itemView, position, getItemCount());
         holder.mView.setImageResource(mDatas.get(position));
     }
