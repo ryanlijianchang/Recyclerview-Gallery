@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.initFlingSpeed(7000).initPageParams(0, 30).setAnimFactor(0.3f).setAnimType(AnimHelper.ANIM_TOP_TO_BOTTOM);
+        mRecyclerView.initFlingSpeed(3000).initPageParams(0, 50).setAnimFactor(0.2f).setAnimType(AnimHelper.ANIM_BOTTOM_TO_TOP);
     }
 
 
