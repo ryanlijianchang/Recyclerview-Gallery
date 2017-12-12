@@ -1,6 +1,7 @@
 package com.ryan.rv_gallery;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 
 /**
@@ -50,29 +51,36 @@ public class AnimHelper {
         View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
         View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
 
+
         if (percent <= 0.5) {
             if (mLeftView != null) {
+                Log.d("TAG", "mLeftView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
                 mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mCurView != null) {
+                Log.d("TAG", "mCurView=" + (1 - percent * mAnimFactor) + "; position=" + position);
                 mCurView.setScaleX(1 - percent * mAnimFactor);
                 mCurView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mRightView != null) {
+                Log.d("TAG", "mRightView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
                 mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
         } else {
             if (mLeftView != null) {
+                Log.d("TAG", "mLeftView=" + (1 - percent * mAnimFactor) + "; position=" + position);
                 mLeftView.setScaleX(1 - percent * mAnimFactor);
                 mLeftView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mCurView != null) {
+                Log.d("TAG", "mCurView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
                 mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mRightView != null) {
+                Log.d("TAG", "mRightView=" + (1 - percent * mAnimFactor) + "; position=" + position);
                 mRightView.setScaleX(1 - percent * mAnimFactor);
                 mRightView.setScaleY(1 - percent * mAnimFactor);
             }

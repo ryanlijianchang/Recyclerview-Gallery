@@ -28,6 +28,15 @@ public class OsUtil {
     }
 
     /**
+     * 获取屏幕高度
+     *
+     * @return
+     */
+    public static int getScreenHeigth() {
+        return Resources.getSystem().getDisplayMetrics().heightPixels;
+    }
+
+    /**
      * 获取屏幕宽度
      *
      * @return

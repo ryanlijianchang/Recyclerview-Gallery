@@ -2,6 +2,7 @@ package com.ryan.rv_gallery;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 
@@ -93,12 +94,41 @@ public class GalleryRecyclerView extends RecyclerView {
 
     /**
      * 设置动画类型
+     *
      * @param type
      * @return
      */
     public GalleryRecyclerView setAnimType(int type) {
         AnimHelper.getInstance().setmAnimType(type);
         return this;
+    }
+
+    public int getOrientation() {
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
+        if (linearLayoutManager == null) {
+            try {
+                throw new Exception("请设置LayoutManager为LinearLayoutManager");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            return linearLayoutManager.getOrientation();
+        }
+        return 0;
+    }
+
+    public LinearLayoutManager getLinearLayoutManager() {
+        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
+        if (linearLayoutManager == null) {
+            try {
+                throw new Exception("请设置LayoutManager为LinearLayoutManager");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            return linearLayoutManager;
+        }
+        return null;
     }
 
 

@@ -3,6 +3,7 @@ package com.ryan.rv_gallery;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.ryan.rv_gallery.util.OsUtil;
 
@@ -18,15 +19,24 @@ public class RecyclerHelper {
 
     // 使偏移量为左边距 + 左边Item的可视部分宽度
     private int mConsumeX = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
+    private int mConsumeY = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
     // 滑动方向
     private int slideDirct = SLIDE_RIGHT;
 
     private static final int SLIDE_LEFT = 1;    // 左滑
     private static final int SLIDE_RIGHT = 2;   // 右滑
+    private static final int SLIDE_TOP = 3;     // 上滑
+    private static final int SLIDE_BOTTOM = 4;  // 下滑
 
 
     public RecyclerHelper(GalleryRecyclerView mGalleryRecyclerView) {
         this.mGalleryRecyclerView = mGalleryRecyclerView;
+
+        if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
+            slideDirct = SLIDE_BOTTOM;
+        } else {
+            slideDirct = SLIDE_RIGHT;
+        }
     }
 
     /**
@@ -57,38 +67,93 @@ public class RecyclerHelper {
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            mConsumeX += dx;
-
-            if (dx > 0) {
-                // 右滑
-                slideDirct = SLIDE_RIGHT;
+            if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
+                onHoritiontalScroll(recyclerView, dx);
             } else {
-                // 左滑
-                slideDirct = SLIDE_LEFT;
+                onVerticalScroll(recyclerView, dy);
             }
-
-            int pageVisibleWidth = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth);
-            int pageMargin = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mPageMargin);
-            // 理论消耗距离 = 卡片宽度 + 2倍边距
-            // 卡片宽度 = 屏幕宽度 - 2倍pageVisibleWidth - 4倍pageMargin
-            // 所以 理论消耗距离 = 屏幕宽度 - 2倍pageVisibleWidth - 2倍pageMargin
-            int shouldConsumeX = OsUtil.getScreenWidth() - (pageVisibleWidth * 2 + pageMargin * 2);
-            // 获取当前的位置
-            int position = getPosition(mConsumeX, shouldConsumeX);
-
-            float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
-
-            // 避免offset值取整时进一，从而影响了percent值
-            if (offset >= ((LinearLayoutManager) mGalleryRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
-                return;
-            }
-
-            // 获取当前页移动的百分值
-            float percent = offset - ((int) offset);
-
-            // 设置动画变化
-            AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
         }
+    }
+
+    /**
+     * 垂直滑动
+     *
+     * @param recyclerView
+     * @param dy
+     */
+    private void onVerticalScroll(final RecyclerView recyclerView, int dy) {
+        mConsumeY += dy;
+
+        if (dy > 0) {
+            slideDirct = SLIDE_BOTTOM;
+        } else {
+            slideDirct = SLIDE_TOP;
+        }
+
+        // 让RecyclerView测绘完成后再调用，避免GalleryAdapterHelper.mItemHeight的值拿不到
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                int shouldConsumeY = GalleryAdapterHelper.mItemHeight;
+                // 获取当前的位置
+                int position = getPosition(mConsumeY, shouldConsumeY);
+                float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+                // 避免offset值取整时进一，从而影响了percent值
+                if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_BOTTOM) {
+                    return;
+                }
+                // 获取当前页移动的百分值
+                float percent = offset - ((int) offset);
+
+                Log.d("TAG", "offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
+
+
+                // 设置动画变化
+                AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
+            }
+        });
+    }
+
+    /**
+     * 水平滑动
+     *
+     * @param recyclerView
+     * @param dx
+     */
+    private void onHoritiontalScroll(final RecyclerView recyclerView, int dx) {
+        mConsumeX += dx;
+
+        if (dx > 0) {
+            // 右滑
+            slideDirct = SLIDE_RIGHT;
+        } else {
+            // 左滑
+            slideDirct = SLIDE_LEFT;
+        }
+
+        // 让RecyclerView测绘完成后再调用，避免GalleryAdapterHelper.mItemWidth的值拿不到
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                int shouldConsumeX = GalleryAdapterHelper.mItemWidth;
+                // 获取当前的位置
+                int position = getPosition(mConsumeX, shouldConsumeX);
+
+                float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+
+                // 避免offset值取整时进一，从而影响了percent值
+                if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
+                    return;
+                }
+
+                // 获取当前页移动的百分值
+                float percent = offset - ((int) offset);
+
+                // 设置动画变化
+                AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
+            }
+        });
+
     }
 
 

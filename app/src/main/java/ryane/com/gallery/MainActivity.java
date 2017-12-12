@@ -22,11 +22,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_list);
 
         RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), testDatas());
+
         LinearLayoutManager mManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(mManager);
         mRecyclerView.setAdapter(adapter);
 
-        mRecyclerView.initFlingSpeed(3000).initPageParams(0, 50).setAnimFactor(0.2f).setAnimType(AnimHelper.ANIM_BOTTOM_TO_TOP);
+        mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f).setAnimType(AnimHelper.ANIM_BOTTOM_TO_TOP);
     }
 
 
