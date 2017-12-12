@@ -6,7 +6,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.ryan.rv_gallery.GalleryRecyclerView;
-import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
@@ -86,8 +85,6 @@ public class RecyclerHelper {
 
             float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
 
-            DLog.d("slideDirct = " + slideDirct + "; offset = " + offset + "; visibile = " + (((LinearLayoutManager) mGalleryRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() + 1));
-
             if (offset >= ((LinearLayoutManager) mGalleryRecyclerView.getLayoutManager()).findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
                 return;
             }
@@ -106,33 +103,27 @@ public class RecyclerHelper {
 
         if (percent <= 0.5) {
             if (mLeftView != null) {
-                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
                 mLeftView.setScaleX((1 - mScale) + percent * mScale);
                 mLeftView.setScaleY((1 - mScale) + percent * mScale);
             }
             if (mCurView != null) {
-                DLog.d("scale --> " + (1 - percent * mScale));
                 mCurView.setScaleX(1 - percent * mScale);
                 mCurView.setScaleY(1 - percent * mScale);
             }
             if (mRightView != null) {
-                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
                 mRightView.setScaleX((1 - mScale) + percent * mScale);
                 mRightView.setScaleY((1 - mScale) + percent * mScale);
             }
         } else {
             if (mLeftView != null) {
-                DLog.d("scale --> " + (1 - percent * mScale));
                 mLeftView.setScaleX(1 - percent * mScale);
                 mLeftView.setScaleY(1 - percent * mScale);
             }
             if (mCurView != null) {
-                DLog.d("scale --> " + ((1 - mScale) + percent * mScale));
                 mCurView.setScaleX((1 - mScale) + percent * mScale);
                 mCurView.setScaleY((1 - mScale) + percent * mScale);
             }
             if (mRightView != null) {
-                DLog.d("scale --> " + (1 - percent * mScale));
                 mRightView.setScaleX(1 - percent * mScale);
                 mRightView.setScaleY(1 - percent * mScale);
             }
@@ -149,7 +140,6 @@ public class RecyclerHelper {
     private int getPosition(int mConsumeX, int shouldConsumeX) {
         float offset = (float) mConsumeX / (float) shouldConsumeX;
         int position = Math.round(offset);        // 四舍五入获取位置值
-        DLog.d("getPosition() --> mConsumeX = " + mConsumeX + "; shouldConsumeX = " + shouldConsumeX + "; offset = " + offset + "; position = " + position);
         return position;
     }
 
@@ -163,7 +153,6 @@ public class RecyclerHelper {
     private float getOffset(int mConsumeX, int shouldConsumeX) {
 
         float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值
-        DLog.d("getOffset() --> mConsumeX = " + mConsumeX + "; shouldConsumeX = " + shouldConsumeX + "; offset = " + (int) offset);
         return offset / ((int) offset + 1);
     }
 
