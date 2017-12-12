@@ -12,7 +12,7 @@ import com.ryan.rv_gallery.util.OsUtil;
 public class GalleryAdapterHelper {
 
     int mPageMargin = 0;          // 每一个页面默认页边距
-    int mLeftPageVisibleWidth = 30; // 中间页面左右两边的页面可见部分宽度
+    int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
 
     public static GalleryAdapterHelper mHelper;
 
