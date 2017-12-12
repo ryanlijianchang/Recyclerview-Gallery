@@ -17,6 +17,8 @@ public class ScrollManager {
 
     private LinearSnapHelper mLinearySnapHelper;
 
+    private int mPosition = 0;
+
     // 使偏移量为左边距 + 左边Item的可视部分宽度
     private int mConsumeX = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
     private int mConsumeY = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
@@ -167,8 +169,11 @@ public class ScrollManager {
     private int getPosition(int mConsumeX, int shouldConsumeX) {
         float offset = (float) mConsumeX / (float) shouldConsumeX;
         int position = Math.round(offset);        // 四舍五入获取位置
+        mPosition = position;
         return position;
     }
 
-
+    public int getPosition() {
+        return mPosition;
+    }
 }

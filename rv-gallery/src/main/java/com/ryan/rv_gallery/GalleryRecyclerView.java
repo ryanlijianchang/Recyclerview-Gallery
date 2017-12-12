@@ -13,6 +13,10 @@ import android.util.AttributeSet;
 public class GalleryRecyclerView extends RecyclerView {
     private int FLING_SPEED = 1000; // 滑动速度
 
+    private int mScrolledPosition = 0;
+
+    private ScrollManager mScrollManager;
+
 
     public GalleryRecyclerView(Context context) {
         this(context, null);
@@ -52,9 +56,9 @@ public class GalleryRecyclerView extends RecyclerView {
      * 连接RecyclerHelper
      */
     private void attachToRecyclerHelper() {
-        ScrollManager recyclerHelper = new ScrollManager(this);
-        recyclerHelper.initSnapHelper();
-        recyclerHelper.initScrollListener();
+        mScrollManager = new ScrollManager(this);
+        mScrollManager.initSnapHelper();
+        mScrollManager.initScrollListener();
     }
 
     /**
@@ -131,5 +135,11 @@ public class GalleryRecyclerView extends RecyclerView {
         return null;
     }
 
-
+    public int getScrolledPosition() {
+        if (mScrollManager == null) {
+            return 0;
+        } else {
+            return mScrollManager.getPosition();
+        }
+    }
 }

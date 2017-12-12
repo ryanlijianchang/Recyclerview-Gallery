@@ -66,4 +66,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
             mView = itemView.findViewById(R.id.iv_photo);
         }
     }
+
+    /**
+     * 获取position位置的resId
+     * @param position
+     * @return
+     */
+    public int getResId(int position) {
+        return mDatas == null ? 0 : mDatas.get(position);
+    }
 }
