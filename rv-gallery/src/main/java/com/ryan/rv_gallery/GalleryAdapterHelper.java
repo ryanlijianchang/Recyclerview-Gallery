@@ -1,4 +1,4 @@
-package com.ryan.rv_gallery.helper;
+package com.ryan.rv_gallery;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -26,6 +26,7 @@ public class GalleryAdapterHelper {
     /**
      * 动态修改每一页的参数：修改每一页的宽度（除去四倍的页边距局和两倍的左右页面可见距离）
      * 注意:需要在onBindViewHolder方法里面调用，避免RecyclerView对Holder的重用不调用onCreateViewHolder方法
+     *
      * @param parent
      * @param itemView
      * @param position

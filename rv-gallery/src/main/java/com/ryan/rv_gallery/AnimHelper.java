@@ -1,4 +1,4 @@
-package com.ryan.rv_gallery.helper;
+package com.ryan.rv_gallery;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -8,7 +8,34 @@ import android.view.View;
  */
 
 public class AnimHelper {
-    private static final float mAnimFactor = 0.2f;
+    private static AnimHelper INSTANCE;
+
+    public static final int ANIM_BOTTOM_TO_TOP = 0;
+    public static final int ANIM_TOP_TO_BOTTOM = 1;
+
+    private int mAnimType = ANIM_BOTTOM_TO_TOP; //动画类型
+    private float mAnimFactor = 0.2f;   //变化因子
+
+    public static AnimHelper getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new AnimHelper();
+        }
+        return INSTANCE;
+    }
+
+    public void setAnimation(RecyclerView recyclerView, int position, float percent) {
+        switch (mAnimType) {
+            case ANIM_BOTTOM_TO_TOP:
+                setBottomToTopAnim(recyclerView, position, percent);
+                break;
+            case ANIM_TOP_TO_BOTTOM:
+                setTopToBottomAnim(recyclerView, position, percent);
+                break;
+            default:
+                setBottomToTopAnim(recyclerView, position, percent);
+                break;
+        }
+    }
 
 
     /**
@@ -18,7 +45,7 @@ public class AnimHelper {
      * @param position
      * @param percent
      */
-    public static void setBottomToTopAnim(RecyclerView recyclerView, int position, float percent) {
+    private void setBottomToTopAnim(RecyclerView recyclerView, int position, float percent) {
         View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
         View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
         View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
@@ -59,7 +86,7 @@ public class AnimHelper {
      * @param position
      * @param percent
      */
-    public static void setTopToBottomAnim(RecyclerView recyclerView, int position, float percent) {
+    private void setTopToBottomAnim(RecyclerView recyclerView, int position, float percent) {
         View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
         View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
         View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
@@ -92,5 +119,13 @@ public class AnimHelper {
                 mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
         }
+    }
+
+    public void setmAnimFactor(float mAnimFactor) {
+        this.mAnimFactor = mAnimFactor;
+    }
+
+    public void setmAnimType(int mAnimType) {
+        this.mAnimType = mAnimType;
     }
 }

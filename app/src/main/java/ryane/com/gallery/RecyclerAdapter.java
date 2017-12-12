@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.ryan.rv_gallery.helper.GalleryAdapterHelper;
+import com.ryan.rv_gallery.GalleryAdapterHelper;
 
 import java.util.List;
 

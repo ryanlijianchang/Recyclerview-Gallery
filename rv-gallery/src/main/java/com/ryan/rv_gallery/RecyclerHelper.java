@@ -1,11 +1,9 @@
-package com.ryan.rv_gallery.helper;
+package com.ryan.rv_gallery;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 
-import com.ryan.rv_gallery.GalleryRecyclerView;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
@@ -89,7 +87,7 @@ public class RecyclerHelper {
             float percent = offset - ((int) offset);
 
             // 设置动画变化
-            AnimHelper.setBottomToTopAnim(recyclerView, position, percent);
+            AnimHelper.getInstance().setAnimation(recyclerView, position, percent);
         }
     }
 
