@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/iv_photo"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="320dp"
+        android:layout_height="480dp"
         android:scaleType="centerCrop" />
 
 

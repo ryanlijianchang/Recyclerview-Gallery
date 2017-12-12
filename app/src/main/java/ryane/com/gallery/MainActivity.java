@@ -100,17 +100,19 @@ public class MainActivity extends AppCompatActivity {
      */
     public List<Integer> testDatas() {
         List<Integer> tDatas = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            tDatas.add(R.drawable.star1);
-            tDatas.add(R.drawable.star2);
-            tDatas.add(R.drawable.star3);
-            tDatas.add(R.drawable.star4);
-            tDatas.add(R.drawable.star5);
-            tDatas.add(R.drawable.star6);
-            tDatas.add(R.drawable.star1);
-            tDatas.add(R.drawable.star8);
-            tDatas.add(R.drawable.star9);
-        }
+        tDatas.add(R.drawable.beauty1);
+        tDatas.add(R.drawable.beauty2);
+        tDatas.add(R.drawable.beauty3);
+        tDatas.add(R.drawable.beauty4);
+        tDatas.add(R.drawable.beauty5);
+        tDatas.add(R.drawable.beauty6);
+        tDatas.add(R.drawable.beauty7);
+        tDatas.add(R.drawable.beauty8);
+        tDatas.add(R.drawable.beauty9);
+        tDatas.add(R.drawable.beauty10);
+        tDatas.add(R.drawable.beauty11);
+        tDatas.add(R.drawable.beauty12);
+        tDatas.add(R.drawable.beauty13);
         return tDatas;
     }
 
