@@ -4,12 +4,10 @@
 RecyclerView现在已经是越来越强大，且不说已经被大家用到滚瓜烂熟的代替ListView的基础功能，现在RecyclerView还可以取代ViewPager实现Banner效果，当然，以下做的小清新的Gallery效果也是类似于一些轮播图的效果，如下图所示，这其中使用到了24.2.0版本后RecyclerView增加的SnapHelper这个辅助类，在实现以下效果起来也是非常简单。所以这也是为什么RecyclerView强大之处，因为Google一直在对RecyclerView不断地进行更新补充，从而它内部的API也是越来越丰富。
 
 
+![小清新的Gallery水平滑动效果](http://onq81n53u.bkt.clouddn.com/ddswwss.gif)
 
 ![小清新的Gallery垂直滑动效果](http://onq81n53u.bkt.clouddn.com/bbb.gif)
 
-![小清新的Gallery水平滑动效果](http://onq81n53u.bkt.clouddn.com/ddww.gif)
-
-小清新的Gallery水平滑动效果
 
 那么我们从水平滑动为例，我们细分为以下几个小问题：
 
