@@ -112,3 +112,71 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 
 ### (3) 滑动时，中间图片滑动到左边时从大变小，右边图片滑动到中间时从小变大。 ###
+
+首先我们明确几个概念。
+
+`总的偏移距离`：意思是从第一个位置移动到现在当前位置偏移的总距离，即dx的累加结果（也就是上述的mConsumX）。
+`当前页偏移距离`：意思是从上一个位置移动到当前位置偏移距离。
+`总的偏移率`：意思是 总的偏移距离 / 移动一页理论消耗距离。
+`当前页的偏移率`：意思是 当前页偏移距离 / 移动一页理论消耗距离。
+
+
+![](http://onq81n53u.bkt.clouddn.com/1513154675%281%29.jpg)
+
+我们都知道，获取当前位置方法里面有一个 
+
+	float offset = (float) mConsumeX / (float) shouldConsumeX;
+
+它的意思就是总的偏移率，例如图中我们当前位置是3，我们从3移动到4时，`onScroll`方法会不断被调用，那么这个offset就会不断变化，从3.0逐渐增加一直到4.0，图中此时的offset大概是3.2左右，我们知道这一个有什么用呢？试想一下，offset是一个浮点型数，将它向下取整，那就是变成3了，那么3.2 - 3 = 0.2就是我们当前页的偏移率了。而我们通过偏移率就可以动态设置图片的大小，就形成了我们这个问题中所说的图片大小变化效果。所以这里的关键就是获取到`当前页的偏移率`。
+
+	@Override
+	public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+		super.onScrolled(recyclerView, dx, dy);
+
+		// ...	
+
+        // 获取当前的位置
+        int position = getPosition(mConsumeX, shouldConsumeX);
+
+		// 移动一页理论消耗距离
+	    int shouldConsumeX = GalleryAdapterHelper.mItemWidth;
+	
+		// 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+	    float offset = (float) mConsumeX / (float) shouldConsumeX;     
+	
+	    // 避免offset值取整时进一，从而影响了percent值
+	    if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
+	        return;
+	    }
+	
+	    // 当前页的偏移率
+	    float percent = offset - ((int) offset);
+
+
+        // 设置动画变化
+		setAnimation(recyclerView, position, percent);
+
+		// ...
+	
+	}
+
+
+那么现在我们拿到了偏移率，我们就可以动态修改它们的尺寸大小了，首先，我们需要拿到当前View，前一个View和后一个View，并同时对它们做Scale伸缩。即上面的`setAnimation(recyclerView, position, percent)`方法里面进行动画操作。
+
+        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
+
+认真观察图中变化，两种变化：
+
+1. 位置的变化：第一张图片是从mCurView慢慢变成mLeftView，而第二张图片是从mRightView慢慢变成mCurView。
+2. 大小变化：第一张图是从大变小，第二张图是从小变大。
+
+了解了以上的变化，我们就可以做动画了。
+
+![](http://onq81n53u.bkt.clouddn.com/ddwwsddss.gif)
+
+首先说明一点，大家观察我的`getPosition(mConsumeX, shouldConsumeX)`方法，里面的实现是，当一页滑动的偏移率超过了0.5之后，position就会自动切换到下一页。当然你的实现逻辑不一样，那么后面你的设置动画的方法就不一样。为什么需要明确这一点呢？因为当我滑动超过图片超过它的一半宽度之后，上面的mCurView就会切换成下一张图片了，所以我在设置动画的方法里以0.5为一个临界点，因为0.5临界点的两边，`mCurView`，`mRightView`，`mLeftView`的指向都已经不一样了。
+
+假如我们定义大小变化因子 `float mAnimFactor = 0.2f`。以上图为例，当percent <= 0.5时，`mCurView`的ScaleX从
+
