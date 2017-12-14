@@ -23,6 +23,11 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     public static int mItemHeight = 0;
     public static int mItemWidth = 0;
 
+    private GalleryRecyclerView.OnItemClickListener onItemClickListener;
+
+    public GalleryItemDecoration() {
+    }
+
     @Override
     public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
@@ -32,7 +37,6 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         final int position = parent.getChildAdapterPosition(view);
         final int itemCount = parent.getAdapter().getItemCount();
 
-
         parent.post(new Runnable() {
             @Override
             public void run() {
@@ -40,6 +44,15 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
                     onSetHoritiontalParams(parent, view, position, itemCount);
                 } else {
                     onSetVerticalParams(parent, view, position, itemCount);
+                }
+            }
+        });
+
+        view.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(v, position);
                 }
             }
         });
@@ -115,5 +128,9 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         if (mWidthChange || mMarginChange || mHeightChange) {
             itemView.setLayoutParams(lp);
         }
+    }
+
+    public void setOnItemClickListener(GalleryRecyclerView.OnItemClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
     }
 }

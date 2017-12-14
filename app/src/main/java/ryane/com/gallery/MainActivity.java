@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.Toast;
 
 import com.ryan.rv_gallery.AnimManager;
 import com.ryan.rv_gallery.GalleryItemDecoration;
@@ -22,7 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements GalleryRecyclerView.OnItemClickListener {
 
     private GalleryRecyclerView mRecyclerView;
     private RelativeLayout mContainer;
@@ -43,7 +45,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f).setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP);
+        mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f)
+                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP).setOnItemClickListener(this);
 
 
         // 背景高斯模糊 & 淡入淡出
@@ -108,11 +111,15 @@ public class MainActivity extends AppCompatActivity {
         }
         ar.recycle();
         List<Integer> tDatas = new ArrayList<>();
-        for(int resId : resIds) {
+        for (int resId : resIds) {
             tDatas.add(resId);
         }
         return tDatas;
     }
 
 
+    @Override
+    public void onItemClick(View view, int position) {
+        Toast.makeText(getApplicationContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+    }
 }

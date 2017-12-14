@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.View;
 
 /**
  * Created by RyanLee on 2017/12/8.
@@ -14,7 +15,7 @@ public class GalleryRecyclerView extends RecyclerView {
     private int FLING_SPEED = 1000; // 滑动速度
 
     private ScrollManager mScrollManager;
-
+    private GalleryItemDecoration mDecoration;
 
     public GalleryRecyclerView(Context context) {
         this(context, null);
@@ -30,8 +31,15 @@ public class GalleryRecyclerView extends RecyclerView {
         attachToRecyclerHelper();
     }
 
+    @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+
+    }
+
     private void attachDecoration() {
-        addItemDecoration(new GalleryItemDecoration());
+        mDecoration = new GalleryItemDecoration();
+        addItemDecoration(mDecoration);
     }
 
 
@@ -111,6 +119,17 @@ public class GalleryRecyclerView extends RecyclerView {
         return this;
     }
 
+    /**
+     * 设置点击事件
+     * @param mListener
+     */
+    public GalleryRecyclerView setOnItemClickListener(OnItemClickListener mListener) {
+        if (mDecoration != null) {
+            mDecoration.setOnItemClickListener(mListener);
+        }
+        return this;
+    }
+
     public int getOrientation() {
         LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
         if (linearLayoutManager == null) {
@@ -145,5 +164,9 @@ public class GalleryRecyclerView extends RecyclerView {
         } else {
             return mScrollManager.getPosition();
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(View view, int position);
     }
 }
