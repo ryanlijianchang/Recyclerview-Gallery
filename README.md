@@ -1,12 +1,13 @@
 # 用RecyclerView做一个小清新的Gallery效果 #
 
+
 ## 一、简介 ##
 RecyclerView现在已经是越来越强大，且不说已经被大家用到滚瓜烂熟的代替ListView的基础功能，现在RecyclerView还可以取代ViewPager实现Banner效果，当然，以下做的小清新的Gallery效果也是类似于一些轮播图的效果，如下图所示，这其中使用到了24.2.0版本后RecyclerView增加的SnapHelper这个辅助类，在实现以下效果起来也是非常简单。所以这也是为什么RecyclerView强大之处，因为Google一直在对RecyclerView不断地进行更新补充，从而它内部的API也是越来越丰富。
 
 
-![小清新的Gallery水平滑动效果](http://onq81n53u.bkt.clouddn.com/ddswwss.gif)
+![小清新的Gallery水平滑动效果](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b7219464a?w=201&h=358&f=gif&s=3031397)
 
-![小清新的Gallery垂直滑动效果](http://onq81n53u.bkt.clouddn.com/bbb.gif)
+![小清新的Gallery垂直滑动效果](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b781841cc?w=206&h=366&f=gif&s=2045166)
 
 
 那么我们从水平滑动为例，我们细分为以下几个小问题：
@@ -19,7 +20,7 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 ## 二、实现思路 ##
 
-解决以上问题当然也不难，我们分布来讲解下实现思路：
+解决以上问题当然也不难，我们分步来讲解下实现思路：
 
 ### (1) 每一次滑动都让图片保持在正中间 ### 
 
@@ -32,11 +33,67 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 ### (2) 第一张图片的左边距和最后一张的右边距需要保持和其他照片的左右边距一样 ###
 
-这个问题涉及到比较多的问题，首先，RecyclerView当前的API，并不能让我们简单的获取到我们图中效果中间图片的位置，或许你会说，可以通过
-`mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition()`能拿到RecyclerView中第一个可见的位置，但是通过效果可以知道，我们每一个张照片（除去第一张和最后一张）左右两边都是有前一张照片和最后一张照片的部分内容的，所以需要做区分判断是否是中间的照片还是第一张亦或最后一张，然后返回`mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1`或者其他。 那么这样又会引出一个问题，当我们把前后照片展示的宽度设置成可配置，即前后照片的露出部分宽度是可配置的话，那么我们这一个方法又不能兼容了，所以通过这一个方法来获取，或许不那么靠谱。
+
+
+解决了获取位置这个问题之后，我们就可以对第0个位置，和最后一个位置的图片做判断，其他图片都默认设置他们的**页边距**和**左右图片的可视距离**，由于第0页左边没有图片，所以左边只有1倍页边距，这样滑动到最左边时看起来就会比较奇怪，如下图所示。
+
+![](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b72460f9a?w=387&h=475&f=png&s=16085)
+
+让第0位置的图片左边保持和其他图片一样的距离，那么就需要动态设置第0位置图片的左边距为**2倍页边距 + 可视距离**。同理，最后一张也是做同样的操作。
+
+动态修改图片的`LayoutParams`，由于RecyclerView对Holder的复用机制，我们最好不要在Adapter里面动态修改，这样子首先不够优雅，这里感谢`@W_BinaryTree`的建议，我们给RecyclerView添加一个自定义的Decoration会让我们的代码更加优雅，只需要重写`RecyclerView.ItemDecoration`里面的`getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state)`方法，并在里面设置每一页的参数即可，修改如下：
+	
+	public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
+	    int mPageMargin = 0;          // 每一个页面默认页边距
+	    int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
+	
+		@Override
+	    public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
+	        super.getItemOffsets(outRect, view, parent, state);
+	    	// ...
+	    
+	    	// 动态修改页面的宽度
+	    	int itemNewWidth = parent.getWidth() - dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
+	    
+	        // 第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
+	        int leftMargin = position == 0 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
+	        int rightMargin = position == itemCount - 1 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
+	    
+	    	// 设置参数
+	    	RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) itemView.getLayoutParams();
+	        lp.setMargins(leftMargin, 0, rightMargin, 0);
+	        lp.width = itemWidth;
+	        itemView.setLayoutParams(lp);
+	    
+	    
+	    	// ...
+	
+		}
+	
+		public int dpToPx(int dp) {
+	        return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5f);
+	    }
+	}
+
+然后，把`GalleryItemDecoration`传入即可：
+
+	mGalleryRecyclerView.addItemDecoration(new GalleryItemDecoration());
+
+
+
+
+### (3) 滑动时，中间图片滑动到左边时从大变小，右边图片滑动到中间时从小变大 ###
+
+这个问题涉及到比较多的问题。
+
+**(a) 获取滑动过程中当前位置。**
+
+首先，RecyclerView当前的API，并不能让我们在滑动的过程中，简单地获取到我们图中效果中间图片的位置，或许你会说，可以通过
+`mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition()`能拿到RecyclerView中第一个可见的位置，但是通过效果可以知道，我们每一个张照片（除去第一张和最后一张）左右两边都是有前一张照片和最后一张照片的部分内容的，所以需要做区分判断是否是中间的照片还是第一张亦或最后一张，然后返回`mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1`或者其他。 那么这样又会引出一个问题，当我们把前后照片展示的宽度设置成可配置，即前后照片的露出部分宽度是可配置，那么当我们把屏幕不显示前后照片遗留部分在屏幕的话，那么我们这一个方法又不能兼容了，所以通过这一个方法来获取，或许不那么靠谱。
 
 我们可以这样来计算出比较准确的位置。在RecyclerView中，我们可以监听它的滑动事件：
 
+	// 滑动监听
 	mGalleryRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
 	    @Override
 	    public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -55,9 +112,9 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 举个例子，当我们迅速至列表右边时，`onScrolled(int dx, int dy)`会不断被调用，通过在方法里面Log输出，你会看到不断输出dx的值，而且他们的大小都是无规律的，而这里的dx就是每一次`onScroll`方法调用一次，RecyclerView在x轴上的消耗距离。
 
-所以我们可以通过一个全局变量`mConsumeX`来累加所有dx，当这样我们就可以知道当前RecyclerView滑动的总距离。而我们Demo中每移动到下一张照片的距离(即如下图中所示的**移动一页理论消耗距离**)是一定的，那么就可以通过**` 当前位置 = mConsumeX / 移动一张照片所需要的距离 `**来获取滑动结束时的位置了。
+所以我们可以通过一个全局变量`mConsumeX`来累加所有dx，当这样我们就可以知道当前RecyclerView滑动的总距离。而我们Demo中每移动到下一张照片的距离(即如下图中所示的**移动一页理论消耗距离**)是一定的，那么就可以通过`当前位置 = mConsumeX / 移动一张照片所需要的距离`来获取滑动结束时的位置了。
 
-![RecyclerView距离示意图](http://onq81n53u.bkt.clouddn.com/%E5%9B%BE1.jpg)
+![RecyclerView距离示意图](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b6e561f70?w=825&h=773&f=png&s=42932)
 
 	/**
 	 * 获取位置
@@ -72,56 +129,20 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 	    return position;
 	}
 
-解决了获取位置这个问题之后，我们就可以对第0个位置，和最后一个位置的图片做判断，其他图片都默认设置他们的**页边距**和**左右图片的可视距离**，由于第0页左边没有图片，所以左边只有1倍页边距，这样滑动到最左边时看起来就会比较奇怪，如下图所示。
+**(b) 根据位置获取当前页的滑动偏移率**
 
-![](http://onq81n53u.bkt.clouddn.com/sa.jpg)
-
-所以就需要让第0位置的图片左边保持和其他图片一样的距离，所以需要动态设置第0位置图片的左边距为**2倍页边距 + 可视距离**。同理，最后一张也是做同样的操作。
-
-当然，动态修改图片的`LayoutParams`，需要在RecyclerView绑定的Adapter的`onBindViewHolder(MyHolder holder, int position)`里面做这些操作，因为RecyclerView对Holder的复用机制，在加载到某些页时，Adapter并不会调用`onCreateViewHolder(ViewGroup parent, int viewType)`来创建Holder，所以如果在这个方法里做LayoutParams修改的话，就会造成一些页不会调用的，具体修改如下：
-	
-
-    int mPageMargin = 0;          // 每一个页面默认页边距
-    int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
-
-	@Override
-	public void onBindViewHolder(MyHolder holder, int position) {
-		// ...
-
-		// 动态修改页面的宽度
-		int itemNewWidth = parent.getWidth() - dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
-
-        // 第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
-        int leftMargin = position == 0 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
-        int rightMargin = position == itemCount - 1 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
-
-		// 设置参数
-		RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) itemView.getLayoutParams();
-        lp.setMargins(leftMargin, 0, rightMargin, 0);
-        lp.width = itemWidth;
-        itemView.setLayoutParams(lp);
-
-
-		// ...
-
-	}
-
-	public int dpToPx(int dp) {
-        return (int) (dp * Resources.getSystem().getDisplayMetrics().density + 0.5f);
-    }
-
-
-### (3) 滑动时，中间图片滑动到左边时从大变小，右边图片滑动到中间时从小变大 ###
-
-首先我们明确几个概念。
+当我们可以准确拿到当前位置时，我们就需要明确一下几个概念。
 
 `总的偏移距离`：意思是从第一个位置移动到现在当前位置偏移的总距离，即dx的累加结果（也就是上述的mConsumX）。
+
 `当前页偏移距离`：意思是从上一个位置移动到当前位置偏移距离。
+
 `总的偏移率`：意思是 总的偏移距离 / 移动一页理论消耗距离。
+
 `当前页的偏移率`：意思是 当前页偏移距离 / 移动一页理论消耗距离。
 
 
-![](http://onq81n53u.bkt.clouddn.com/1513154675%281%29.jpg)
+![](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b758abedb?w=1072&h=934&f=png&s=46504)
 
 我们都知道，获取当前位置方法里面有一个 
 
@@ -133,15 +154,15 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 	public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 		super.onScrolled(recyclerView, dx, dy);
 
-		// ...	
+	    // ...	
 
         // 获取当前的位置
         int position = getPosition(mConsumeX, shouldConsumeX);
 
-		// 移动一页理论消耗距离
+	    // 移动一页理论消耗距离
 	    int shouldConsumeX = GalleryAdapterHelper.mItemWidth;
 	
-		// 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+	    // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
 	    float offset = (float) mConsumeX / (float) shouldConsumeX;     
 	
 	    // 避免offset值取整时进一，从而影响了percent值
@@ -154,14 +175,15 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 
         // 设置动画变化
-		setAnimation(recyclerView, position, percent);
+	    setAnimation(recyclerView, position, percent);
 
-		// ...
+	    // ...
 	
 	}
 
+**(c) 根据偏移率实现动画**
 
-那么现在我们拿到了偏移率，我们就可以动态修改它们的尺寸大小了，首先，我们需要拿到当前View，前一个View和后一个View，并同时对它们做Scale伸缩。即上面的`setAnimation(recyclerView, position, percent)`方法里面进行动画操作。
+现在我们拿到了偏移率，就可以动态修改它们的尺寸大小了，首先，我们需要拿到当前View，前一个View和后一个View，并同时对它们做Scale伸缩。即上面的`setAnimation(recyclerView, position, percent)`方法里面进行动画操作。
 
         View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
         View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
@@ -172,9 +194,9 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 1. 位置的变化：第一张图片是从mCurView慢慢变成mLeftView，而第二张图片是从mRightView慢慢变成mCurView。
 2. 大小变化：第一张图是从大变小，第二张图是从小变大。
 
-了解了以上的变化，我们就可以做动画了。
+理解了以上的变化之后，我们就可以做动画了。
 
-![](http://onq81n53u.bkt.clouddn.com/ddwwsddss.gif)
+![](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b7472c6f0?w=202&h=366&f=gif&s=1395373)
 
 首先说明一点，大家观察我的`getPosition(mConsumeX, shouldConsumeX)`方法，里面的实现是，当一页滑动的偏移率超过了0.5之后，position就会自动切换到下一页。当然你的实现逻辑不一样，那么后面你的设置动画的方法就不一样。为什么需要明确这一点呢？因为当我滑动超过图片超过它的一半宽度之后，上面的mCurView就会切换成下一张图片了，所以我在设置动画的方法里以0.5为一个临界点，因为0.5临界点的两边，`mCurView`，`mRightView`，`mLeftView`的指向都已经不一样了。
 
