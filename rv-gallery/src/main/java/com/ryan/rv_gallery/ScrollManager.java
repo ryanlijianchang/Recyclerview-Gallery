@@ -20,8 +20,8 @@ public class ScrollManager {
     private int mPosition = 0;
 
     // 使偏移量为左边距 + 左边Item的可视部分宽度
-    private int mConsumeX = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
-    private int mConsumeY = OsUtil.dpToPx(GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth + GalleryAdapterHelper.newInstance().mPageMargin * 2);
+    private int mConsumeX = OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
+    private int mConsumeY = OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
     // 滑动方向
     private int slideDirct = SLIDE_RIGHT;
 
@@ -96,7 +96,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeY = GalleryAdapterHelper.mItemHeight;
+                int shouldConsumeY = GalleryItemDecoration.mItemHeight;
                 // 获取当前的位置
                 int position = getPosition(mConsumeY, shouldConsumeY);
                 float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
@@ -137,7 +137,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeX = GalleryAdapterHelper.mItemWidth;
+                int shouldConsumeX = GalleryItemDecoration.mItemWidth;
                 // 获取当前的位置
                 int position = getPosition(mConsumeX, shouldConsumeX);
 

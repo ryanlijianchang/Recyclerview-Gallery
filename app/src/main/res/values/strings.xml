@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">RecyclerView-Gallery</string>
+
+    <integer-array name="test_arr">
+        <item>@drawable/beauty1</item>
+        <item>@drawable/beauty2</item>
+        <item>@drawable/beauty3</item>
+        <item>@drawable/beauty4</item>
+        <item>@drawable/beauty5</item>
+        <item>@drawable/beauty6</item>
+        <item>@drawable/beauty7</item>
+        <item>@drawable/beauty8</item>
+        <item>@drawable/beauty9</item>
+        <item>@drawable/beauty10</item>
+        <item>@drawable/beauty11</item>
+        <item>@drawable/beauty12</item>
+        <item>@drawable/beauty13</item>
+    </integer-array>
 </resources>

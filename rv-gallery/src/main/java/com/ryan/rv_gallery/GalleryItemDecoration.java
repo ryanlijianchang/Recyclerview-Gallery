@@ -1,55 +1,46 @@
 package com.ryan.rv_gallery;
 
+import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ryan.rv_gallery.GalleryRecyclerView;
 import com.ryan.rv_gallery.util.OsUtil;
 
-/***
- * Created by RyanLee on 2017/12/8.
+/**
+ * Created by RyanLee on 2017/12/14.
  */
-public class GalleryAdapterHelper {
 
-    int mPageMargin = 0;          // 每一个页面默认页边距
-    int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
+public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
+    private final String TAG = "GalleryItemDecoration";
+
+    public static int mPageMargin = 0;          // 每一个页面默认页边距
+    public static int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
 
     public static int mItemHeight = 0;
     public static int mItemWidth = 0;
 
-    public static GalleryAdapterHelper mHelper;
+    @Override
+    public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
+        super.getItemOffsets(outRect, view, parent, state);
 
-    public static GalleryAdapterHelper newInstance() {
-        if (mHelper == null) {
-            mHelper = new GalleryAdapterHelper();
-        }
-        return mHelper;
-    }
+        Log.d(TAG, "getItemOffset() --> position = " + parent.getChildAdapterPosition(view));
 
-    /**
-     * 动态修改每一页的参数：修改每一页的宽度（除去四倍的页边距局和两倍的左右页面可见距离）
-     * 注意:需要在onBindViewHolder方法里面调用，避免RecyclerView对Holder的重用不调用onCreateViewHolder方法
-     *
-     * @param parent
-     * @param itemView
-     * @param position
-     * @param itemCount
-     */
-    public void setItemLayoutParams(final ViewGroup parent, final View itemView, final int position, final int itemCount) {
-        final GalleryRecyclerView mParentView = (GalleryRecyclerView) parent;
+        final int position = parent.getChildAdapterPosition(view);
+        final int itemCount = parent.getAdapter().getItemCount();
 
-        mParentView.post(new Runnable() {
+
+        parent.post(new Runnable() {
             @Override
             public void run() {
-
                 if (((GalleryRecyclerView) parent).getOrientation() == LinearLayoutManager.HORIZONTAL) {
-                    onSetHoritiontalParams(parent, itemView, position, itemCount);
+                    onSetHoritiontalParams(parent, view, position, itemCount);
                 } else {
-                    onSetVerticalParams(parent, itemView, position, itemCount);
+                    onSetVerticalParams(parent, view, position, itemCount);
                 }
-
             }
         });
     }
