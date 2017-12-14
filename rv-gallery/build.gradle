@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'com.github.dcendents.android-maven'
 
 android {
     compileSdkVersion 26
@@ -34,5 +36,63 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+}
 
+//important
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
+version = "1.0.0"//发布的library的版本号,这个比较关键！！！
+
+def siteUrl = 'https://github.com/ryanlijianchang/Recyclerview-Gallery'      // 项目的主页(可随意，建议填library的github地址)
+def gitUrl = 'https://github.com/ryanlijianchang/Recyclerview-Gallery'      // Git仓库的url(可随意，建议填library的github地址)
+group = "com.ryan.rv_gallery"    // 这里是groupId ,必须填写(建议填唯一的包名)
+
+bintray {
+    user = properties.getProperty("bintray.user") //读取 local.properties 文件里面的 bintray.user
+    key = properties.getProperty("bintray.apikey")
+
+    configurations = ['archives']
+    pkg {
+        repo = "maven"
+        group = group
+        name = "RecyclerView-Gallery"//发布到JCenter上的项目名字，必须填写
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'The library is a custom view about "Personal center consumption points" in our old version app'     //项目描述
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'ryanlijianchang'        //开发者的基本信息(建议填自己名称)
+                        name 'RyanLee'    //开发者基本信息(建议填自己名称)
+                        email 'liji.anchang@163.com'   //开发者基本信息(建议填自己名称)
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
 }
