@@ -1,5 +1,4 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -24,19 +23,6 @@ android {
         }
     }
 
-    lintOptions {
-        abortOnError false
-    }
-
-}
-
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.4.0'
-    }
 }
 
 dependencies {
@@ -48,13 +34,5 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:3.0.1', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-}
 
-publish {
-    userOrg = 'ryanlijianchang'
-    groupId = 'com.ryan.rv_gallery'
-    artifactId = 'Recyclerview-Gallery'
-    publishVersion = '1.0.0'
-    desc = 'A view show gallery with the RecyclerView'
-    website = 'https://github.com/ryanlijianchang/Recyclerview-Gallery'
 }
