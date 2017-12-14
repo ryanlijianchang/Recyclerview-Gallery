@@ -13,8 +13,6 @@ import android.util.AttributeSet;
 public class GalleryRecyclerView extends RecyclerView {
     private int FLING_SPEED = 1000; // 滑动速度
 
-    private int mScrolledPosition = 0;
-
     private ScrollManager mScrollManager;
 
 
@@ -28,8 +26,14 @@ public class GalleryRecyclerView extends RecyclerView {
 
     public GalleryRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        attachDecoration();
         attachToRecyclerHelper();
     }
+
+    private void attachDecoration() {
+        addItemDecoration(new GalleryItemDecoration());
+    }
+
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
@@ -69,8 +73,8 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView initPageParams(int pageMargin, int leftPageVisibleWidth) {
-        GalleryAdapterHelper.newInstance().mPageMargin = pageMargin;
-        GalleryAdapterHelper.newInstance().mLeftPageVisibleWidth = leftPageVisibleWidth;
+        GalleryItemDecoration.mPageMargin = pageMargin;
+        GalleryItemDecoration.mLeftPageVisibleWidth = leftPageVisibleWidth;
         return this;
     }
 

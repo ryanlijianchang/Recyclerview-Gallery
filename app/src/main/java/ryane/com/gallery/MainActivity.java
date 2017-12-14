@@ -1,5 +1,6 @@
 package ryane.com.gallery;
 
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -9,13 +10,14 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.widget.RelativeLayout;
 
 import com.ryan.rv_gallery.AnimManager;
+import com.ryan.rv_gallery.GalleryItemDecoration;
 import com.ryan.rv_gallery.GalleryRecyclerView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -37,14 +39,14 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = findViewById(R.id.rv_list);
         mContainer = findViewById(R.id.rl_container);
 
-        final RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), testDatas());
+        final RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), getDatas());
 
-        LinearLayoutManager mManager = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
-        mRecyclerView.setLayoutManager(mManager);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
-
         mRecyclerView.initFlingSpeed(5000).initPageParams(0, 60).setAnimFactor(0.15f).setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP);
 
+
+        // 背景高斯模糊 & 淡入淡出
         mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -98,21 +100,17 @@ public class MainActivity extends AppCompatActivity {
      * 测试数据
      * @return
      */
-    public List<Integer> testDatas() {
+    public List<Integer> getDatas() {
+        TypedArray ar = getResources().obtainTypedArray(R.array.test_arr);
+        final int[] resIds = new int[ar.length()];
+        for (int i = 0; i < ar.length(); i++) {
+            resIds[i] = ar.getResourceId(i, 0);
+        }
+        ar.recycle();
         List<Integer> tDatas = new ArrayList<>();
-        tDatas.add(R.drawable.beauty1);
-        tDatas.add(R.drawable.beauty2);
-        tDatas.add(R.drawable.beauty3);
-        tDatas.add(R.drawable.beauty4);
-        tDatas.add(R.drawable.beauty5);
-        tDatas.add(R.drawable.beauty6);
-        tDatas.add(R.drawable.beauty7);
-        tDatas.add(R.drawable.beauty8);
-        tDatas.add(R.drawable.beauty9);
-        tDatas.add(R.drawable.beauty10);
-        tDatas.add(R.drawable.beauty11);
-        tDatas.add(R.drawable.beauty12);
-        tDatas.add(R.drawable.beauty13);
+        for(int resId : resIds) {
+            tDatas.add(resId);
+        }
         return tDatas;
     }
 
