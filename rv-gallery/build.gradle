@@ -42,7 +42,7 @@ dependencies {
 Properties properties = new Properties()
 properties.load(project.rootProject.file('local.properties').newDataInputStream())
 
-version = "1.0.1"//发布的library的版本号,这个比较关键！！！
+version = "1.0.2"//发布的library的版本号,这个比较关键！！！
 
 def siteUrl = 'https://github.com/ryanlijianchang/Recyclerview-Gallery'      // 项目的主页(可随意，建议填library的github地址)
 def gitUrl = 'https://github.com/ryanlijianchang/Recyclerview-Gallery'      // Git仓库的url(可随意，建议填library的github地址)
