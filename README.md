@@ -5,8 +5,7 @@
 ![小清新的Gallery水平滑动效果](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b7219464a?w=201&h=358&f=gif&s=3031397)
 ![小清新的Gallery垂直滑动效果](https://user-gold-cdn.xitu.io/2017/12/13/1604f61b781841cc?w=206&h=366&f=gif&s=2045166)
 
-
-# Usage #
+# 用法 #
 
 首先，在你的`build.gradle`中添加依赖。
 
@@ -44,7 +43,11 @@
 	             .setAnimFactor(0.15f)                                   // 设置切换动画的参数因子
 	             .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
 	             .setOnItemClickListener(this);                          // 设置点击事件
-	
+
+
+# 实现 #
+
+具体实现过程已在掘金上发布了，如果你感兴趣，可以跳转到[这里](https://juejin.im/post/5a30fe5a6fb9a045132ab1bf)。如果你觉得可以帮助到你，不妨点个Star。
 
 # License #
 
