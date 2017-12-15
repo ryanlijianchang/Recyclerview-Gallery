@@ -32,9 +32,14 @@ public class GalleryRecyclerView extends RecyclerView {
     }
 
     @Override
-    protected void onFinishInflate() {
-        super.onFinishInflate();
+    public void onWindowFocusChanged(boolean hasWindowFocus) {
+        super.onWindowFocusChanged(hasWindowFocus);
 
+        if (getAdapter().getItemCount() <= 0) {
+            return;
+        }
+        // 获得焦点后滑动至第0项，避免第0项的margin不对
+        smoothScrollToPosition(0);
     }
 
     private void attachDecoration() {

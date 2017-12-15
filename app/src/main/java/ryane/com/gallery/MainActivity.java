@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
                      .initPageParams(0, 60)     // 设置页边距和左右图片的可见宽度，单位dp
                      .setAnimFactor(0.15f)                                   // 设置切换动画的参数因子
                      .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
-                      .setOnItemClickListener(this);                         // 设置点击事件
+                     .setOnItemClickListener(this);                          // 设置点击事件
 
 
         // 背景高斯模糊 & 淡入淡出
