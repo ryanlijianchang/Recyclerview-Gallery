@@ -44,6 +44,16 @@
 	             .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
 	             .setOnItemClickListener(this);                          // 设置点击事件
 
+# API #
+
+1. `initFlingSpeed(int speed)`：修改滑动速度（像素/s）
+2. `setAnimFactor(float factor)`：修改切换动画的参数因子
+3. `setAnimType(int type)`：配置动画类型 //ANIM_BOTTOM_TO_TOP、ANIM_TOP_TO_BOTTOM
+4. `setOnItemClickListener(OnItemClickListener mListener)`：设置点击事件
+5. `initPageParams(int pageMargin, int leftPageVisibleWidth)`：动态配置页边距和左右页可视宽度/高度
+6. `getScrolledPosition()`：获取当前位置
+7. `getLinearLayoutManager()`：获取LayoutManager
+8. `getOrientation()`：获取当前的滑动方向 HORIZONTAL:0 VERTICAL:1
 
 # 实现 #
 
@@ -60,11 +70,11 @@
 **V1.0.0**
 
 1. GalleryRecyclerview支持实现Gallery效果。
-2. 支持动态修改滑动速度（像素/s）：initFlingSpeed(int speed)。
-3. 支持动态修改切换动画的参数因子：setAnimFactor(float factor)。
-4. 支持配置动画类型：setAnimType(int type)。//ANIM_BOTTOM_TO_TOP、ANIM_TOP_TO_BOTTOM
-5. 支持点击事件：setOnItemClickListener(OnItemClickListener mListener)。
-6. 支持动态配置页边距和左右页可视宽度/高度：initPageParams(int pageMargin, int leftPageVisibleWidth)。
+2. 支持动态修改滑动速度（像素/s）。
+3. 支持动态修改切换动画的参数因子。
+4. 支持配置动画类型。
+5. 支持点击事件。
+6. 支持动态配置页边距和左右页可视宽度/高度。
 
 
 
