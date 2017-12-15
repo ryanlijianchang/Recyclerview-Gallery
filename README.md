@@ -51,6 +51,12 @@
 
 # 版本特性 #
 
+查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.0.1**
+
+1. BUG FIX。首次打开，获得焦点后滑动至第0项，避免第0项的margin不对。
+
 **V1.0.0**
 
 1. GalleryRecyclerview支持实现Gallery效果。
@@ -60,9 +66,7 @@
 5. 支持点击事件：setOnItemClickListener(OnItemClickListener mListener)。
 6. 支持动态配置页边距和左右页可视宽度/高度：initPageParams(int pageMargin, int leftPageVisibleWidth)。
 
-**V1.0.1**
 
-1. BUG FIX。首次打开，获得焦点后滑动至第0项，避免第0项的margin不对。
 
 # License #
 
