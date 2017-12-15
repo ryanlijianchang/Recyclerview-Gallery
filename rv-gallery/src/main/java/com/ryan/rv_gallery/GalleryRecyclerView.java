@@ -2,6 +2,7 @@ package com.ryan.rv_gallery;
 
 import android.content.Context;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -137,20 +138,28 @@ public class GalleryRecyclerView extends RecyclerView {
     }
 
     public int getOrientation() {
-        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
-        if (linearLayoutManager == null) {
-            throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
+
+        if (getLayoutManager() instanceof LinearLayoutManager) {
+            if (getLayoutManager() instanceof GridLayoutManager) {
+                throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
+            } else {
+                return ((LinearLayoutManager) getLayoutManager()).getOrientation();
+            }
         } else {
-            return linearLayoutManager.getOrientation();
+            throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
         }
     }
 
     public LinearLayoutManager getLinearLayoutManager() {
-        LinearLayoutManager linearLayoutManager = (LinearLayoutManager) getLayoutManager();
-        if (linearLayoutManager == null) {
-            throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
+        if (getLayoutManager() instanceof LinearLayoutManager) {
+            if (getLayoutManager() instanceof GridLayoutManager) {
+                throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
+
+            } else {
+                return (LinearLayoutManager) getLayoutManager();
+            }
         } else {
-            return linearLayoutManager;
+            throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
         }
     }
 
