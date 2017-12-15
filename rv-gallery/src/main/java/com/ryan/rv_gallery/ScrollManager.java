@@ -33,12 +33,6 @@ public class ScrollManager {
 
     public ScrollManager(GalleryRecyclerView mGalleryRecyclerView) {
         this.mGalleryRecyclerView = mGalleryRecyclerView;
-
-        if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
-            slideDirct = SLIDE_BOTTOM;
-        } else {
-            slideDirct = SLIDE_RIGHT;
-        }
     }
 
     /**
