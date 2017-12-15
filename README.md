@@ -9,7 +9,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.0'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.1'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -48,6 +48,21 @@
 # 实现 #
 
 具体实现过程已在掘金上发布了，如果你感兴趣，可以跳转到[这里](https://juejin.im/post/5a30fe5a6fb9a045132ab1bf)。如果你觉得可以帮助到你，不妨点个Star。
+
+# 版本特性 #
+
+**V1.0.0**
+
+1. GalleryRecyclerview支持实现Gallery效果。
+2. 支持动态修改滑动速度（像素/s）：initFlingSpeed(int speed)。
+3. 支持动态修改切换动画的参数因子：setAnimFactor(float factor)。
+4. 支持配置动画类型：setAnimType(int type)。//ANIM_BOTTOM_TO_TOP、ANIM_TOP_TO_BOTTOM
+5. 支持点击事件：setOnItemClickListener(OnItemClickListener mListener)。
+6. 支持动态配置页边距和左右页可视宽度/高度：initPageParams(int pageMargin, int leftPageVisibleWidth)。
+
+**V1.0.1**
+
+1. BUG FIX。首次打开，获得焦点后滑动至第0项，避免第0项的margin不对。
 
 # License #
 
