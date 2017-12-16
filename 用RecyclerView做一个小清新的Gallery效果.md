@@ -46,15 +46,21 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 	public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
 	    int mPageMargin = 0;          // 每一个页面默认页边距
 	    int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
+
+	    public static int mItemComusemX = 0;  // 一页理论消耗距离
+
 	
 		@Override
 	    public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
 	        super.getItemOffsets(outRect, view, parent, state);
 	    	// ...
-	    
+
 	    	// 动态修改页面的宽度
 	    	int itemNewWidth = parent.getWidth() - dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
 	    
+			// 一页理论消耗距离
+	        mItemComusemX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
+
 	        // 第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
 	        int leftMargin = position == 0 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
 	        int rightMargin = position == itemCount - 1 ? dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : dpToPx(mPageMargin);
@@ -156,11 +162,13 @@ RecyclerView现在已经是越来越强大，且不说已经被大家用到滚�
 
 	    // ...	
 
-        // 获取当前的位置
-        int position = getPosition(mConsumeX, shouldConsumeX);
 
 	    // 移动一页理论消耗距离
-	    int shouldConsumeX = GalleryAdapterHelper.mItemWidth;
+        int shouldConsumeX = GalleryItemDecoration.mItemComusemX;
+
+
+        // 获取当前的位置
+        int position = getPosition(mConsumeX, shouldConsumeX);
 	
 	    // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
 	    float offset = (float) mConsumeX / (float) shouldConsumeX;     
