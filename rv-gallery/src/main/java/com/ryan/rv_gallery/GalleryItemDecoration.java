@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.ryan.rv_gallery.GalleryRecyclerView;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
@@ -20,8 +19,8 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     public static int mPageMargin = 0;          // 每一个页面默认页边距
     public static int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
 
-    public static int mItemHeight = 0;
-    public static int mItemWidth = 0;
+    public static int mItemComusemY = 0;
+    public static int mItemComusemX = 0;
 
     private GalleryRecyclerView.OnItemClickListener onItemClickListener;
 
@@ -62,6 +61,9 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         int itemNewWidth = parent.getWidth();
         int itemNewHeight = parent.getHeight() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
 
+        mItemComusemY = itemNewHeight + OsUtil.dpToPx(2 * mPageMargin);
+
+
         Log.d("TAG", "itemNewHeight=" + itemNewHeight);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
@@ -82,6 +84,10 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     private void onSetHoritiontalParams(ViewGroup parent, View itemView, int position, int itemCount) {
         int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
         int itemNewHeight = parent.getHeight();
+
+        mItemComusemX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
+
+        Log.d(TAG, "onSetHoritiontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin) + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
@@ -114,14 +120,11 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         if (lp.width != itemWidth) {
             lp.width = itemWidth;
             mWidthChange = true;
-
-            mItemWidth = itemWidth;
         }
         if (lp.height != itemHeight) {
             lp.height = itemHeight;
             mHeightChange = true;
 
-            mItemHeight = itemHeight;
         }
 
         // 因为方法会不断调用，只有在真正变化了之后才调用

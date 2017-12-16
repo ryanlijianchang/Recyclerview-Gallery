@@ -39,6 +39,9 @@ public class GalleryRecyclerView extends RecyclerView {
         if (getAdapter().getItemCount() <= 0) {
             return;
         }
+        if (mScrollManager != null) {
+            mScrollManager.updateComsume();
+        }
         // 获得焦点后滑动至第0项，避免第0项的margin不对
         smoothScrollToPosition(0);
     }

@@ -4,6 +4,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.ryan.rv_gallery.util.OsUtil;
 
@@ -20,8 +21,8 @@ public class ScrollManager {
     private int mPosition = 0;
 
     // 使偏移量为左边距 + 左边Item的可视部分宽度
-    private int mConsumeX = OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
-    private int mConsumeY = OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
+    private int mConsumeX = 0;
+    private int mConsumeY = 0;
     // 滑动方向
     private int slideDirct = SLIDE_RIGHT;
 
@@ -49,6 +50,12 @@ public class ScrollManager {
     public void initScrollListener() {
         GalleryScrollerListener mScrollerListener = new GalleryScrollerListener();
         mGalleryRecyclerView.addOnScrollListener(mScrollerListener);
+    }
+
+    public void updateComsume() {
+        mConsumeX += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
+        mConsumeY += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
+
     }
 
 
@@ -90,7 +97,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeY = GalleryItemDecoration.mItemHeight;
+                int shouldConsumeY = GalleryItemDecoration.mItemComusemY;
                 // 获取当前的位置
                 int position = getPosition(mConsumeY, shouldConsumeY);
                 float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
@@ -131,11 +138,12 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeX = GalleryItemDecoration.mItemWidth;
+                int shouldConsumeX = GalleryItemDecoration.mItemComusemX;
                 // 获取当前的位置
                 int position = getPosition(mConsumeX, shouldConsumeX);
 
                 float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+                Log.d("TAG", "offset=" + offset + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX);
 
                 // 避免offset值取整时进一，从而影响了percent值
                 if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
@@ -144,6 +152,8 @@ public class ScrollManager {
 
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
+
+
 
                 // 设置动画变化
                 AnimManager.getInstance().setAnimation(recyclerView, position, percent);
