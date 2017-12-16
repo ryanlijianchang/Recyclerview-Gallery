@@ -9,7 +9,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.2'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.3'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -62,6 +62,11 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.0.3**
+
+1. 修复了移动一页理论消耗距离应该是图片宽度加上2倍页边距。
+2. 修复了修改页边距和可视宽度之后，没有生效。
 
 **V1.0.2**
 
