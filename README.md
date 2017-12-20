@@ -9,11 +9,12 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.3'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.4'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
 	<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:app="http://schemas.android.com/apk/res-auto"
 	    android:id="@+id/rl_container"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
@@ -25,7 +26,8 @@
 	    <com.ryan.rv_gallery.GalleryRecyclerView
 	        android:id="@+id/rv_list"
 	        android:layout_width="match_parent"
-	        android:layout_height="480dp" />
+	        android:layout_height="480dp"
+        	app:helper="PagerSnapHelper" />
 
 	</RelativeLayout>
 
@@ -46,6 +48,8 @@
 
 # API #
 
+**Java API**
+
 1. `initFlingSpeed(int speed)`：修改滑动速度（像素/s）
 2. `setAnimFactor(float factor)`：修改切换动画的参数因子
 3. `setAnimType(int type)`：配置动画类型 //ANIM_BOTTOM_TO_TOP、ANIM_TOP_TO_BOTTOM
@@ -55,6 +59,10 @@
 7. `getLinearLayoutManager()`：获取LayoutManager
 8. `getOrientation()`：获取当前的滑动方向 HORIZONTAL:0 VERTICAL:1
 
+**XML API**
+
+1. `app:helper="PagerSnapHelper/LinearySnapHelper"`：PagerSnapHelper一次只能滑动一页，LinearySnapHelper一次滑动多页。
+
 # 实现 #
 
 具体实现过程已在掘金上发布了，如果你感兴趣，可以跳转到[这里](https://juejin.im/post/5a30fe5a6fb9a045132ab1bf)。如果你觉得可以帮助到你，不妨点个Star。
@@ -62,6 +70,10 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.0.4**
+
+1. 增加helper属性，包括LinearySnapHelper和PagerSnapHelper。
 
 **V1.0.3**
 
