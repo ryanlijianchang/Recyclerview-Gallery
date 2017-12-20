@@ -2,6 +2,7 @@ package com.ryan.rv_gallery;
 
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
+import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +18,7 @@ public class ScrollManager {
     private GalleryRecyclerView mGalleryRecyclerView;
 
     private LinearSnapHelper mLinearySnapHelper;
+    private PagerSnapHelper mPagerSnapHelper;
 
     private int mPosition = 0;
 
@@ -38,10 +40,20 @@ public class ScrollManager {
 
     /**
      * 初始化SnapHelper
+     *
+     * @param helper
      */
-    public void initSnapHelper() {
-        mLinearySnapHelper = new LinearSnapHelper();
-        mLinearySnapHelper.attachToRecyclerView(mGalleryRecyclerView);
+    public void initSnapHelper(int helper) {
+        switch (helper) {
+            case GalleryRecyclerView.LinearySnapHelper:
+                mLinearySnapHelper = new LinearSnapHelper();
+                mLinearySnapHelper.attachToRecyclerView(mGalleryRecyclerView);
+                break;
+            case GalleryRecyclerView.PagerSnapHelper:
+                mPagerSnapHelper = new PagerSnapHelper();
+                mPagerSnapHelper.attachToRecyclerView(mGalleryRecyclerView);
+                break;
+        }
     }
 
     /**

@@ -1,6 +1,7 @@
 package com.ryan.rv_gallery;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,10 @@ import android.view.View;
 public class GalleryRecyclerView extends RecyclerView {
     private int FLING_SPEED = 1000; // 滑动速度
 
+    public static final int LinearySnapHelper = 0;
+    public static final int PagerSnapHelper = 1;
+
+
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
 
@@ -28,8 +33,13 @@ public class GalleryRecyclerView extends RecyclerView {
 
     public GalleryRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+
+        TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.gallery_recyclerview);
+        int helper = ta.getInteger(R.styleable.gallery_recyclerview_helper, LinearySnapHelper);
+        ta.recycle();
+
         attachDecoration();
-        attachToRecyclerHelper();
+        attachToRecyclerHelper(helper);
     }
 
     @Override
@@ -75,10 +85,11 @@ public class GalleryRecyclerView extends RecyclerView {
 
     /**
      * 连接RecyclerHelper
+     * @param helper
      */
-    private void attachToRecyclerHelper() {
+    private void attachToRecyclerHelper(int helper) {
         mScrollManager = new ScrollManager(this);
-        mScrollManager.initSnapHelper();
+        mScrollManager.initSnapHelper(helper);
         mScrollManager.initScrollListener();
     }
 
