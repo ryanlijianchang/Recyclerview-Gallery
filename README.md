@@ -23,8 +23,8 @@
 	    android:gravity="center"
 	    android:orientation="vertical">
 	
-		<-- PagerSnapHelper一次只能滑动一页 -->
-		<-- LinearySnapHelper一次能滑动多页 -->
+		<!-- PagerSnapHelper一次只能滑动一页 -->
+		<!-- LinearySnapHelper一次能滑动多页 -->
 	    <com.ryan.rv_gallery.GalleryRecyclerView
 	        android:id="@+id/rv_list"
 	        android:layout_width="match_parent"
