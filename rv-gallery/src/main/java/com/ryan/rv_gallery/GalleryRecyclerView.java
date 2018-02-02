@@ -19,6 +19,9 @@ public class GalleryRecyclerView extends RecyclerView {
     public static final int LinearySnapHelper = 0;
     public static final int PagerSnapHelper = 1;
 
+    public boolean mHasWindowFocus = false;
+
+
 
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
@@ -43,18 +46,35 @@ public class GalleryRecyclerView extends RecyclerView {
     }
 
     @Override
+    protected void onFinishInflate() {
+        super.onFinishInflate();
+    }
+
+    @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
+
+        this.mHasWindowFocus = hasWindowFocus;
 
         if (getAdapter().getItemCount() <= 0) {
             return;
         }
+        // 获得焦点后滑动至第0项，避免第0项的margin不对
+        if (hasWindowFocus) {
+            //scrollToPosition(0);
+            smoothScrollToPosition(0);
+        } else {
+            scrollToPosition(0);
+        }
+
+        mScrollManager.initScrollListener();
+
         if (mScrollManager != null) {
             mScrollManager.updateComsume();
         }
-        // 获得焦点后滑动至第0项，避免第0项的margin不对
-        smoothScrollToPosition(0);
     }
+
+
 
     private void attachDecoration() {
         mDecoration = new GalleryItemDecoration();
@@ -90,7 +110,6 @@ public class GalleryRecyclerView extends RecyclerView {
     private void attachToRecyclerHelper(int helper) {
         mScrollManager = new ScrollManager(this);
         mScrollManager.initSnapHelper(helper);
-        mScrollManager.initScrollListener();
     }
 
     /**
@@ -185,7 +204,13 @@ public class GalleryRecyclerView extends RecyclerView {
         }
     }
 
+
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
+
+    public boolean getHasWindowFocus() {
+        return mHasWindowFocus;
+    }
+
 }

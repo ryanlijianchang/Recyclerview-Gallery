@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
@@ -64,7 +65,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         mItemComusemY = itemNewHeight + OsUtil.dpToPx(2 * mPageMargin);
 
 
-        Log.d("TAG", "itemNewHeight=" + itemNewHeight);
+        DLog.d(TAG, "itemNewHeight=" + itemNewHeight);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int topMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
@@ -87,7 +88,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
 
         mItemComusemX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
 
-        Log.d(TAG, "onSetHoritiontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin) + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
+        DLog.d(TAG, "onSetHoritiontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin) + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);

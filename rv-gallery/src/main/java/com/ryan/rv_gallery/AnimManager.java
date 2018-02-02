@@ -1,14 +1,17 @@
 package com.ryan.rv_gallery;
 
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
+
+import com.ryan.rv_gallery.util.DLog;
 
 /**
  * Created by RyanLee on 2017/12/12.
  */
 
 public class AnimManager {
+    private static final String TAG = "AnimManager";
+
     private static AnimManager INSTANCE;
 
     public static final int ANIM_BOTTOM_TO_TOP = 0;
@@ -54,33 +57,33 @@ public class AnimManager {
 
         if (percent <= 0.5) {
             if (mLeftView != null) {
-                Log.d("TAG", "mLeftView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mLeftView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mCurView != null) {
-                Log.d("TAG", "mCurView=" + (1 - percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mCurView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mCurView.setScaleX(1 - percent * mAnimFactor);
                 mCurView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mRightView != null) {
-                Log.d("TAG", "mRightView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mRightView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
         } else {
             if (mLeftView != null) {
-                Log.d("TAG", "mLeftView=" + (1 - percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mLeftView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mLeftView.setScaleX(1 - percent * mAnimFactor);
                 mLeftView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mCurView != null) {
-                Log.d("TAG", "mCurView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mCurView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mRightView != null) {
-                Log.d("TAG", "mRightView=" + (1 - percent * mAnimFactor) + "; position=" + position);
+                DLog.d(TAG, "mRightView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mRightView.setScaleX(1 - percent * mAnimFactor);
                 mRightView.setScaleY(1 - percent * mAnimFactor);
             }

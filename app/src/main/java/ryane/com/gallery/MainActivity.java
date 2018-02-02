@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.ryan.rv_gallery.AnimManager;
 import com.ryan.rv_gallery.GalleryRecyclerView;
+import com.ryan.rv_gallery.util.DLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -38,6 +39,8 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
         mRecyclerView = findViewById(R.id.rv_list);
         mContainer = findViewById(R.id.rl_container);
+
+        DLog.setDebug(true);
 
         final RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), getDatas());
 

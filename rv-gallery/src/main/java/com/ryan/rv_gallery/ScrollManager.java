@@ -4,9 +4,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.LinearSnapHelper;
 import android.support.v7.widget.PagerSnapHelper;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.View;
 
+import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
@@ -14,6 +13,7 @@ import com.ryan.rv_gallery.util.OsUtil;
  */
 
 public class ScrollManager {
+    private static final String TAG = "ScrollManager";
 
     private GalleryRecyclerView mGalleryRecyclerView;
 
@@ -67,7 +67,7 @@ public class ScrollManager {
     public void updateComsume() {
         mConsumeX += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
         mConsumeY += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
-
+        DLog.d(TAG, "updateComsume mConsumeX=" + mConsumeX);
     }
 
 
@@ -75,12 +75,17 @@ public class ScrollManager {
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            DLog.d(TAG, "newState=" + newState);
             super.onScrollStateChanged(recyclerView, newState);
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
+
+            if (!mGalleryRecyclerView.getHasWindowFocus()) {
+                return;
+            }
 
             if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
                 onHoritiontalScroll(recyclerView, dx);
@@ -120,7 +125,7 @@ public class ScrollManager {
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-                Log.d("TAG", "offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
+                DLog.d(TAG, "offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
 
 
                 // 设置动画变化
@@ -135,7 +140,8 @@ public class ScrollManager {
      * @param recyclerView
      * @param dx
      */
-    private void onHoritiontalScroll(final RecyclerView recyclerView, int dx) {
+    private void onHoritiontalScroll(final RecyclerView recyclerView, final int dx) {
+        DLog.d(TAG, "mConsumeX=" + mConsumeX + "; dx=" + dx);
         mConsumeX += dx;
 
         if (dx > 0) {
@@ -155,7 +161,6 @@ public class ScrollManager {
                 int position = getPosition(mConsumeX, shouldConsumeX);
 
                 float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
-                Log.d("TAG", "offset=" + offset + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX);
 
                 // 避免offset值取整时进一，从而影响了percent值
                 if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
@@ -165,7 +170,7 @@ public class ScrollManager {
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-
+                DLog.d(TAG, "offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
 
                 // 设置动画变化
                 AnimManager.getInstance().setAnimation(recyclerView, position, percent);
