@@ -129,7 +129,7 @@ public class ScrollManager {
 
 
                 // 设置动画变化
-                AnimManager.getInstance().setAnimation(recyclerView, position, percent);
+                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, position, percent);
             }
         });
     }
@@ -173,7 +173,7 @@ public class ScrollManager {
                 DLog.d(TAG, "offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
 
                 // 设置动画变化
-                AnimManager.getInstance().setAnimation(recyclerView, position, percent);
+                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, position, percent);
             }
         });
 

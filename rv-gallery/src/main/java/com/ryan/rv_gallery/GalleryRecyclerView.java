@@ -23,11 +23,16 @@ public class GalleryRecyclerView extends RecyclerView {
 
 
 
+    private AnimManager mAnimManager;
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
 
     public GalleryItemDecoration getDecoration() {
         return mDecoration;
+    }
+
+    public AnimManager getAnimManager() {
+        return mAnimManager;
     }
 
     public GalleryRecyclerView(Context context) {
@@ -45,6 +50,7 @@ public class GalleryRecyclerView extends RecyclerView {
         int helper = ta.getInteger(R.styleable.gallery_recyclerview_helper, LinearySnapHelper);
         ta.recycle();
 
+        mAnimManager = new AnimManager();
         attachDecoration();
         attachToRecyclerHelper(helper);
     }
@@ -147,7 +153,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimFactor(float factor) {
-        AnimManager.getInstance().setmAnimFactor(factor);
+        mAnimManager.setmAnimFactor(factor);
         return this;
     }
 
@@ -158,7 +164,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimType(int type) {
-        AnimManager.getInstance().setmAnimType(type);
+        mAnimManager.setmAnimType(type);
         return this;
     }
 
