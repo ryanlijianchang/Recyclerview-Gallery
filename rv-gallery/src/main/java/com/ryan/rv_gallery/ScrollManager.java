@@ -65,8 +65,8 @@ public class ScrollManager {
     }
 
     public void updateComsume() {
-        mConsumeX += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
-        mConsumeY += OsUtil.dpToPx(GalleryItemDecoration.mLeftPageVisibleWidth + GalleryItemDecoration.mPageMargin * 2);
+        mConsumeX += OsUtil.dpToPx(mGalleryRecyclerView.getDecoration().mLeftPageVisibleWidth + mGalleryRecyclerView.getDecoration().mPageMargin * 2);
+        mConsumeY += OsUtil.dpToPx(mGalleryRecyclerView.getDecoration().mLeftPageVisibleWidth + mGalleryRecyclerView.getDecoration().mPageMargin * 2);
         DLog.d(TAG, "updateComsume mConsumeX=" + mConsumeX);
     }
 
@@ -114,7 +114,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeY = GalleryItemDecoration.mItemComusemY;
+                int shouldConsumeY = mGalleryRecyclerView.getDecoration().mItemComusemY;
                 // 获取当前的位置
                 int position = getPosition(mConsumeY, shouldConsumeY);
                 float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
@@ -156,7 +156,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeX = GalleryItemDecoration.mItemComusemX;
+                int shouldConsumeX = mGalleryRecyclerView.getDecoration().mItemComusemX;
                 // 获取当前的位置
                 int position = getPosition(mConsumeX, shouldConsumeX);
 

@@ -26,6 +26,10 @@ public class GalleryRecyclerView extends RecyclerView {
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
 
+    public GalleryItemDecoration getDecoration() {
+        return mDecoration;
+    }
+
     public GalleryRecyclerView(Context context) {
         this(context, null);
     }
@@ -120,8 +124,8 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView initPageParams(int pageMargin, int leftPageVisibleWidth) {
-        GalleryItemDecoration.mPageMargin = pageMargin;
-        GalleryItemDecoration.mLeftPageVisibleWidth = leftPageVisibleWidth;
+        mDecoration.mPageMargin = pageMargin;
+        mDecoration.mLeftPageVisibleWidth = leftPageVisibleWidth;
         return this;
     }
 
