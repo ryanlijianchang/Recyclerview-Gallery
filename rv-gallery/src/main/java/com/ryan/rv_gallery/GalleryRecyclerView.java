@@ -19,9 +19,8 @@ public class GalleryRecyclerView extends RecyclerView {
     public static final int LinearySnapHelper = 0;
     public static final int PagerSnapHelper = 1;
 
-    public boolean mHasWindowFocus = false;
-
-
+    //    public boolean mHasWindowFocus = false;
+    private boolean mFirstHasWindowFocus = true;
 
     private AnimManager mAnimManager;
     private ScrollManager mScrollManager;
@@ -64,26 +63,28 @@ public class GalleryRecyclerView extends RecyclerView {
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
 
-        this.mHasWindowFocus = hasWindowFocus;
+//        this.mHasWindowFocus = hasWindowFocus;
 
         if (getAdapter().getItemCount() <= 0) {
             return;
         }
-        // 获得焦点后滑动至第0项，避免第0项的margin不对
-        if (hasWindowFocus) {
-            //scrollToPosition(0);
-            smoothScrollToPosition(0);
-        } else {
-            scrollToPosition(0);
-        }
+        // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
+        if (mFirstHasWindowFocus) {
+            if (hasWindowFocus) {
+                //scrollToPosition(0);
+                smoothScrollToPosition(0);
+            } else {
+                scrollToPosition(0);
+            }
 
-        mScrollManager.initScrollListener();
+            if (mScrollManager != null) {
+                mScrollManager.initScrollListener();
+                mScrollManager.updateComsume();
+            }
 
-        if (mScrollManager != null) {
-            mScrollManager.updateComsume();
+            mFirstHasWindowFocus = false;
         }
     }
-
 
 
     private void attachDecoration() {
@@ -115,6 +116,7 @@ public class GalleryRecyclerView extends RecyclerView {
 
     /**
      * 连接RecyclerHelper
+     *
      * @param helper
      */
     private void attachToRecyclerHelper(int helper) {
@@ -219,8 +221,7 @@ public class GalleryRecyclerView extends RecyclerView {
         void onItemClick(View view, int position);
     }
 
-    public boolean getHasWindowFocus() {
-        return mHasWindowFocus;
-    }
-
+//    public boolean getHasWindowFocus() {
+//        return mHasWindowFocus;
+//    }
 }

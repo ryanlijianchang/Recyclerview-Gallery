@@ -70,22 +70,23 @@ public class ScrollManager {
         DLog.d(TAG, "updateComsume mConsumeX=" + mConsumeX);
     }
 
-
     class GalleryScrollerListener extends RecyclerView.OnScrollListener {
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             DLog.d(TAG, "newState=" + newState);
             super.onScrollStateChanged(recyclerView, newState);
+            if (newState == RecyclerView.SCROLL_STATE_IDLE)
+                ; // TODO mPosition 设置
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-            if (!mGalleryRecyclerView.getHasWindowFocus()) {
-                return;
-            }
+//            if (!mGalleryRecyclerView.getHasWindowFocus()) {
+//                return;
+//            }
 
             if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
                 onHoritiontalScroll(recyclerView, dx);
@@ -116,10 +117,16 @@ public class ScrollManager {
             public void run() {
                 int shouldConsumeY = mGalleryRecyclerView.getDecoration().mItemComusemY;
                 // 获取当前的位置
+                int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
                 int position = getPosition(mConsumeY, shouldConsumeY);
+                mPosition = position == 0 ? 0 : itemPosition + 1;
+
+                if (position != 0)
+                    position = itemPosition + 1;
+
                 float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
                 // 避免offset值取整时进一，从而影响了percent值
-                if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_BOTTOM) {
+                if (offset >= itemPosition + 1 && slideDirct == SLIDE_BOTTOM) {
                     return;
                 }
                 // 获取当前页移动的百分值
@@ -158,12 +165,17 @@ public class ScrollManager {
             public void run() {
                 int shouldConsumeX = mGalleryRecyclerView.getDecoration().mItemComusemX;
                 // 获取当前的位置
+                int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
                 int position = getPosition(mConsumeX, shouldConsumeX);
+                mPosition = position == 0 ? 0 : itemPosition + 1;
+
+                if (position != 0)
+                    position = itemPosition + 1;
 
                 float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
 
                 // 避免offset值取整时进一，从而影响了percent值
-                if (offset >= mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition() + 1 && slideDirct == SLIDE_RIGHT) {
+                if (offset >= itemPosition + 1 && slideDirct == SLIDE_RIGHT) {
                     return;
                 }
 
@@ -179,7 +191,6 @@ public class ScrollManager {
 
     }
 
-
     /**
      * 获取位置
      *
@@ -189,9 +200,7 @@ public class ScrollManager {
      */
     private int getPosition(int mConsumeX, int shouldConsumeX) {
         float offset = (float) mConsumeX / (float) shouldConsumeX;
-        int position = Math.round(offset);        // 四舍五入获取位置
-        mPosition = position;
-        return position;
+        return Math.round(offset);        // 四舍五入获取位置
     }
 
     public int getPosition() {
