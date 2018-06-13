@@ -17,11 +17,11 @@ import com.ryan.rv_gallery.util.OsUtil;
 public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     private final String TAG = "GalleryItemDecoration";
 
-    public static int mPageMargin = 0;          // 每一个页面默认页边距
-    public static int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
+    public int mPageMargin = 0;          // 每一个页面默认页边距
+    public int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
 
-    public static int mItemComusemY = 0;
-    public static int mItemComusemX = 0;
+    public int mItemComusemY = 0;
+    public int mItemComusemX = 0;
 
     private GalleryRecyclerView.OnItemClickListener onItemClickListener;
 

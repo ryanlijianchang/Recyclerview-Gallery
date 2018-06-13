@@ -12,20 +12,11 @@ import com.ryan.rv_gallery.util.DLog;
 public class AnimManager {
     private static final String TAG = "AnimManager";
 
-    private static AnimManager INSTANCE;
-
     public static final int ANIM_BOTTOM_TO_TOP = 0;
     public static final int ANIM_TOP_TO_BOTTOM = 1;
 
     private int mAnimType = ANIM_BOTTOM_TO_TOP; //动画类型
     private float mAnimFactor = 0.2f;   //变化因子
-
-    public static AnimManager getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new AnimManager();
-        }
-        return INSTANCE;
-    }
 
     public void setAnimation(RecyclerView recyclerView, int position, float percent) {
         switch (mAnimType) {
