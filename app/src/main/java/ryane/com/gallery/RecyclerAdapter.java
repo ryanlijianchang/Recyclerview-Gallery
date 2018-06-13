@@ -2,11 +2,12 @@ package ryane.com.gallery;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.ryan.rv_gallery.util.DLog;
 
 import java.util.List;
 
@@ -15,7 +16,6 @@ import java.util.List;
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHolder> {
-    private final String TAG = "RecyclerAdapter";
     private Context mContext;
     private List<Integer> mDatas;
     private ViewGroup mParent;
@@ -28,21 +28,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
 
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
-        Log.d(TAG, "onAttachedToRecyclerView");
+        DLog.d(MainActivity.TAG, "RecyclerAdapter onAttachedToRecyclerView");
         this.mParent = recyclerView;
         super.onAttachedToRecyclerView(recyclerView);
     }
 
     @Override
     public MyHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.d(TAG, "onCreateViewHolder" + " width = " + parent.getWidth());
+        DLog.d(MainActivity.TAG, "RecyclerAdapter onCreateViewHolder" + " width = " + parent.getWidth());
         View itemView = LayoutInflater.from(mContext).inflate(R.layout.item_gallery, parent, false);
         return new MyHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
-        Log.d(TAG, "onBindViewHolder" + "--> position = " + position);
+        DLog.d(MainActivity.TAG, "RecyclerAdapter onBindViewHolder" + "--> position = " + position);
         // 需要增加此代码修改每一页的宽高
         //GalleryAdapterHelper.newInstance().setItemLayoutParams(mParent, holder.itemView, position, getItemCount());
         holder.mView.setImageResource(mDatas.get(position));
@@ -58,9 +58,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
 
         public MyHolder(View itemView) {
             super(itemView);
-
-            Log.d(TAG, "MyHolder");
-
             mView = itemView.findViewById(R.id.iv_photo);
         }
     }

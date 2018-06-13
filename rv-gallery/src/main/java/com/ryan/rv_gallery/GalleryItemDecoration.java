@@ -3,7 +3,6 @@ package com.ryan.rv_gallery;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -15,13 +14,13 @@ import com.ryan.rv_gallery.util.OsUtil;
  */
 
 public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
-    private final String TAG = "GalleryItemDecoration";
+    private final String TAG = "MainActivity_TAG";
 
     public int mPageMargin = 0;          // 每一个页面默认页边距
     public int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
 
-    public int mItemComusemY = 0;
-    public int mItemComusemX = 0;
+    public int mItemConsumeY = 0;
+    public int mItemConsumeX = 0;
 
     private GalleryRecyclerView.OnItemClickListener onItemClickListener;
 
@@ -32,7 +31,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     public void getItemOffsets(Rect outRect, final View view, final RecyclerView parent, RecyclerView.State state) {
         super.getItemOffsets(outRect, view, parent, state);
 
-        Log.d(TAG, "getItemOffset() --> position = " + parent.getChildAdapterPosition(view));
+        DLog.d(TAG, "GalleryItemDecoration getItemOffset() --> position = " + parent.getChildAdapterPosition(view));
 
         final int position = parent.getChildAdapterPosition(view);
         final int itemCount = parent.getAdapter().getItemCount();
@@ -41,7 +40,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
             @Override
             public void run() {
                 if (((GalleryRecyclerView) parent).getOrientation() == LinearLayoutManager.HORIZONTAL) {
-                    onSetHoritiontalParams(parent, view, position, itemCount);
+                    onSetHorizontalParams(parent, view, position, itemCount);
                 } else {
                     onSetVerticalParams(parent, view, position, itemCount);
                 }
@@ -62,10 +61,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         int itemNewWidth = parent.getWidth();
         int itemNewHeight = parent.getHeight() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
 
-        mItemComusemY = itemNewHeight + OsUtil.dpToPx(2 * mPageMargin);
-
-
-        DLog.d(TAG, "itemNewHeight=" + itemNewHeight);
+        mItemConsumeY = itemNewHeight + OsUtil.dpToPx(2 * mPageMargin);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int topMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
@@ -82,13 +78,14 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
      * @param position
      * @param itemCount
      */
-    private void onSetHoritiontalParams(ViewGroup parent, View itemView, int position, int itemCount) {
+    private void onSetHorizontalParams(ViewGroup parent, View itemView, int position, int itemCount) {
         int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
         int itemNewHeight = parent.getHeight();
 
-        mItemComusemX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
+        mItemConsumeX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
 
-        DLog.d(TAG, "onSetHoritiontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin) + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
+        DLog.d(TAG, "GalleryItemDecoration onSetHorizontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin)
+                + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
 
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int leftMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
@@ -109,6 +106,10 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
      * @param itemHeight
      */
     private void setLayoutParams(View itemView, int left, int top, int right, int bottom, int itemWidth, int itemHeight) {
+
+        DLog.d(TAG, "GalleryItemDecoration setLayoutParams -->" + "left=" + left + ";top=" + top
+                + ";right=" + right + ";bottom=" + bottom + ";itemWidth=" + itemWidth + ";itemHeight=" + itemHeight);
+
         RecyclerView.LayoutParams lp = (RecyclerView.LayoutParams) itemView.getLayoutParams();
         boolean mMarginChange = false;
         boolean mWidthChange = false;

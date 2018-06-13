@@ -10,7 +10,6 @@ import com.ryan.rv_gallery.util.DLog;
  */
 
 public class AnimManager {
-    private static final String TAG = "AnimManager";
 
     public static final int ANIM_BOTTOM_TO_TOP = 0;
     public static final int ANIM_TOP_TO_BOTTOM = 1;
@@ -48,33 +47,27 @@ public class AnimManager {
 
         if (percent <= 0.5) {
             if (mLeftView != null) {
-                DLog.d(TAG, "mLeftView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mCurView != null) {
-                DLog.d(TAG, "mCurView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mCurView.setScaleX(1 - percent * mAnimFactor);
                 mCurView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mRightView != null) {
-                DLog.d(TAG, "mRightView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
         } else {
             if (mLeftView != null) {
-                DLog.d(TAG, "mLeftView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mLeftView.setScaleX(1 - percent * mAnimFactor);
                 mLeftView.setScaleY(1 - percent * mAnimFactor);
             }
             if (mCurView != null) {
-                DLog.d(TAG, "mCurView=" + ((1 - mAnimFactor) + percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
                 mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
             }
             if (mRightView != null) {
-                DLog.d(TAG, "mRightView=" + (1 - percent * mAnimFactor) + "; position=" + position + "; percent=" + percent);
                 mRightView.setScaleX(1 - percent * mAnimFactor);
                 mRightView.setScaleY(1 - percent * mAnimFactor);
             }
@@ -123,11 +116,11 @@ public class AnimManager {
         }
     }
 
-    public void setmAnimFactor(float mAnimFactor) {
+    public void setAnimFactor(float mAnimFactor) {
         this.mAnimFactor = mAnimFactor;
     }
 
-    public void setmAnimType(int mAnimType) {
+    public void setAnimType(int mAnimType) {
         this.mAnimType = mAnimType;
     }
 }

@@ -13,12 +13,9 @@ import com.ryan.rv_gallery.util.OsUtil;
  */
 
 public class ScrollManager {
-    private static final String TAG = "ScrollManager";
+    private static final String TAG = "MainActivity_TAG";
 
     private GalleryRecyclerView mGalleryRecyclerView;
-
-    private LinearSnapHelper mLinearySnapHelper;
-    private PagerSnapHelper mPagerSnapHelper;
 
     private int mPosition = 0;
 
@@ -46,11 +43,11 @@ public class ScrollManager {
     public void initSnapHelper(int helper) {
         switch (helper) {
             case GalleryRecyclerView.LinearySnapHelper:
-                mLinearySnapHelper = new LinearSnapHelper();
-                mLinearySnapHelper.attachToRecyclerView(mGalleryRecyclerView);
+                LinearSnapHelper mLinearSnapHelper = new LinearSnapHelper();
+                mLinearSnapHelper.attachToRecyclerView(mGalleryRecyclerView);
                 break;
             case GalleryRecyclerView.PagerSnapHelper:
-                mPagerSnapHelper = new PagerSnapHelper();
+                PagerSnapHelper mPagerSnapHelper = new PagerSnapHelper();
                 mPagerSnapHelper.attachToRecyclerView(mGalleryRecyclerView);
                 break;
         }
@@ -64,32 +61,28 @@ public class ScrollManager {
         mGalleryRecyclerView.addOnScrollListener(mScrollerListener);
     }
 
-    public void updateComsume() {
+    public void updateConsume() {
         mConsumeX += OsUtil.dpToPx(mGalleryRecyclerView.getDecoration().mLeftPageVisibleWidth + mGalleryRecyclerView.getDecoration().mPageMargin * 2);
         mConsumeY += OsUtil.dpToPx(mGalleryRecyclerView.getDecoration().mLeftPageVisibleWidth + mGalleryRecyclerView.getDecoration().mPageMargin * 2);
-        DLog.d(TAG, "updateComsume mConsumeX=" + mConsumeX);
+        DLog.d(TAG, "ScrollManager updateConsume mConsumeX=" + mConsumeX);
     }
 
     class GalleryScrollerListener extends RecyclerView.OnScrollListener {
 
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            DLog.d(TAG, "newState=" + newState);
+            DLog.d(TAG, "ScrollManager newState=" + newState);
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE)
-                ; // TODO mPosition 设置
+            if (newState == RecyclerView.SCROLL_STATE_IDLE);
+            // TODO mPosition 设置
         }
 
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
 
-//            if (!mGalleryRecyclerView.getHasWindowFocus()) {
-//                return;
-//            }
-
             if (mGalleryRecyclerView.getOrientation() == LinearLayoutManager.HORIZONTAL) {
-                onHoritiontalScroll(recyclerView, dx);
+                onHorizontalScroll(recyclerView, dx);
             } else {
                 onVerticalScroll(recyclerView, dy);
             }
@@ -115,7 +108,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeY = mGalleryRecyclerView.getDecoration().mItemComusemY;
+                int shouldConsumeY = mGalleryRecyclerView.getDecoration().mItemConsumeY;
                 // 获取当前的位置
                 int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
                 int position = getPosition(mConsumeY, shouldConsumeY);
@@ -132,7 +125,7 @@ public class ScrollManager {
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-                DLog.d(TAG, "offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
+                DLog.i(TAG, "ScrollManager offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
 
 
                 // 设置动画变化
@@ -147,8 +140,7 @@ public class ScrollManager {
      * @param recyclerView
      * @param dx
      */
-    private void onHoritiontalScroll(final RecyclerView recyclerView, final int dx) {
-        DLog.d(TAG, "mConsumeX=" + mConsumeX + "; dx=" + dx);
+    private void onHorizontalScroll(final RecyclerView recyclerView, final int dx) {
         mConsumeX += dx;
 
         if (dx > 0) {
@@ -163,7 +155,7 @@ public class ScrollManager {
         recyclerView.post(new Runnable() {
             @Override
             public void run() {
-                int shouldConsumeX = mGalleryRecyclerView.getDecoration().mItemComusemX;
+                int shouldConsumeX = mGalleryRecyclerView.getDecoration().mItemConsumeX;
                 // 获取当前的位置
                 int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
                 int position = getPosition(mConsumeX, shouldConsumeX);
@@ -182,7 +174,7 @@ public class ScrollManager {
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-                DLog.d(TAG, "offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
+                DLog.i(TAG, "ScrollManager offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
 
                 // 设置动画变化
                 mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, position, percent);

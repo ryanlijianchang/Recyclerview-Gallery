@@ -9,11 +9,16 @@ import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ryan.rv_gallery.util.DLog;
+
 /**
  * Created by RyanLee on 2017/12/8.
  */
 
 public class GalleryRecyclerView extends RecyclerView {
+
+    private static final String TAG = "MainActivity_TAG";
+
     private int FLING_SPEED = 1000; // 滑动速度
 
     public static final int LinearySnapHelper = 0;
@@ -49,6 +54,8 @@ public class GalleryRecyclerView extends RecyclerView {
         int helper = ta.getInteger(R.styleable.gallery_recyclerview_helper, LinearySnapHelper);
         ta.recycle();
 
+        DLog.d(TAG, "GalleryRecyclerView constructor");
+
         mAnimManager = new AnimManager();
         attachDecoration();
         attachToRecyclerHelper(helper);
@@ -63,7 +70,7 @@ public class GalleryRecyclerView extends RecyclerView {
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
 
-//        this.mHasWindowFocus = hasWindowFocus;
+        DLog.d(TAG, "GalleryRecyclerView onWindowFocusChanged --> mFirstHasWindowFocus=" + mFirstHasWindowFocus + "; hasWindowFocus=" + hasWindowFocus);
 
         if (getAdapter().getItemCount() <= 0) {
             return;
@@ -71,7 +78,6 @@ public class GalleryRecyclerView extends RecyclerView {
         // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
         if (mFirstHasWindowFocus) {
             if (hasWindowFocus) {
-                //scrollToPosition(0);
                 smoothScrollToPosition(0);
             } else {
                 scrollToPosition(0);
@@ -79,7 +85,7 @@ public class GalleryRecyclerView extends RecyclerView {
 
             if (mScrollManager != null) {
                 mScrollManager.initScrollListener();
-                mScrollManager.updateComsume();
+                mScrollManager.updateConsume();
             }
 
             mFirstHasWindowFocus = false;
@@ -88,6 +94,8 @@ public class GalleryRecyclerView extends RecyclerView {
 
 
     private void attachDecoration() {
+        DLog.d(TAG, "GalleryRecyclerView attachDecoration");
+
         mDecoration = new GalleryItemDecoration();
         addItemDecoration(mDecoration);
     }
@@ -95,8 +103,8 @@ public class GalleryRecyclerView extends RecyclerView {
 
     @Override
     public boolean fling(int velocityX, int velocityY) {
-        velocityX = balancelocity(velocityX);
-        velocityY = balancelocity(velocityY);
+        velocityX = balanceVelocity(velocityX);
+        velocityY = balanceVelocity(velocityY);
         return super.fling(velocityX, velocityY);
     }
 
@@ -106,7 +114,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @param velocity
      * @return
      */
-    private int balancelocity(int velocity) {
+    private int balanceVelocity(int velocity) {
         if (velocity > 0) {
             return Math.min(velocity, FLING_SPEED);
         } else {
@@ -120,6 +128,8 @@ public class GalleryRecyclerView extends RecyclerView {
      * @param helper
      */
     private void attachToRecyclerHelper(int helper) {
+        DLog.d(TAG, "GalleryRecyclerView attachToRecyclerHelper");
+
         mScrollManager = new ScrollManager(this);
         mScrollManager.initSnapHelper(helper);
     }
@@ -155,7 +165,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimFactor(float factor) {
-        mAnimManager.setmAnimFactor(factor);
+        mAnimManager.setAnimFactor(factor);
         return this;
     }
 
@@ -166,7 +176,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @return
      */
     public GalleryRecyclerView setAnimType(int type) {
-        mAnimManager.setmAnimType(type);
+        mAnimManager.setAnimType(type);
         return this;
     }
 
@@ -220,8 +230,4 @@ public class GalleryRecyclerView extends RecyclerView {
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
     }
-
-//    public boolean getHasWindowFocus() {
-//        return mHasWindowFocus;
-//    }
 }

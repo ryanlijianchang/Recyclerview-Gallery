@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MainActivity extends AppCompatActivity implements GalleryRecyclerView.OnItemClickListener {
+    public static final String TAG = "MainActivity_TAG";
 
     private GalleryRecyclerView mRecyclerView;
     private RelativeLayout mContainer;
@@ -37,10 +38,13 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        DLog.setDebug(true);
+
+        DLog.d(TAG, "MainActivity onCreate()");
+
         mRecyclerView = findViewById(R.id.rv_list);
         mContainer = findViewById(R.id.rl_container);
 
-        DLog.setDebug(true);
 
         final RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), getDatas());
 
@@ -105,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
     /***
      * 测试数据
-     * @return
+     * @return List<Integer>
      */
     public List<Integer> getDatas() {
         TypedArray ar = getResources().obtainTypedArray(R.array.test_arr);
@@ -121,6 +125,40 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
         return tDatas;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        DLog.d(TAG, "MainActivity onResume()");
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        DLog.d(TAG, "MainActivity onStart()");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        DLog.d(TAG, "MainActivity onPause()");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+
+        DLog.d(TAG, "MainActivity onStop()");
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
+        DLog.d(TAG, "MainActivity onDestroy()");
+    }
 
     @Override
     public void onItemClick(View view, int position) {

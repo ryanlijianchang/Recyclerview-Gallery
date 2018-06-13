@@ -44,8 +44,4 @@ public class DLog {
     public static void setDebug(boolean debug) {
         isDebug = debug;
     }
-
-    public static boolean getDebug() {
-        return isDebug;
-    }
 }
