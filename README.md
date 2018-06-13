@@ -9,7 +9,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.6'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.7'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
