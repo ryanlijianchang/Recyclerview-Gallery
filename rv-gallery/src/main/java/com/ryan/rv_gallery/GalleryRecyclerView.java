@@ -89,7 +89,7 @@ public class GalleryRecyclerView extends RecyclerView {
         // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
         if (mFirstHasWindowFocus) {
             if (hasRotate) {
-                Log.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
+                DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
 
                 // 如果是横竖屏切换，不应该走smoothScrollToPosition(0)，因为这个方法会导致ScrollManager的onHorizontalScroll不断执行，而ScrollManager.mConsumeX已经重置，会导致这个值紊乱
                 // 而如果走scrollToPosition(0)方法，则不会导致ScrollManager的onHorizontalScroll执行，所以ScrollManager.mConsumeX这个值不会错误
@@ -99,10 +99,11 @@ public class GalleryRecyclerView extends RecyclerView {
                 smoothScrollBy(0, 0);
 
                 if (scrollPos > 1) {
+                    // BUG FIX.滑动前两项时，横竖屏切换，触发scrollToPosition(0)时ScrollManager.mConsumeX值为0;而滑动超过两项时，ScrollManager.mConsumeX值不为0
                     mScrollManager.updateConsume();
                 }
             } else {
-                Log.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=false");
+                DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=false");
 
                 smoothScrollToPosition(0);
                 mScrollManager.updateConsume();

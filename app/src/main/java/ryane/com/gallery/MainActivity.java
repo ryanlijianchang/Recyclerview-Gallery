@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        DLog.setDebug(true);
+        DLog.setDebug(false);
 
         DLog.d(TAG, "MainActivity onCreate()");
 

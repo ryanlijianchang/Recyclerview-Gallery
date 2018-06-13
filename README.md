@@ -73,6 +73,9 @@
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
 
+**V1.0.7**
+1. BUG FIX。修复横竖屏切换时UI异常问题。
+
 **V1.0.6**
 
 1. BUG FIX By @[jefshi](https://github.com/jefshi)。去除单例，修复前后台切换后，位置不对的问题。
