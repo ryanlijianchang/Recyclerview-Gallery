@@ -2,11 +2,14 @@ package com.ryan.rv_gallery;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 
 import com.ryan.rv_gallery.util.DLog;
@@ -30,6 +33,14 @@ public class GalleryRecyclerView extends RecyclerView {
     private AnimManager mAnimManager;
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
+    /**
+     * 是否是屏幕旋转后重新创建
+     */
+    private boolean hasRotate = false;
+    /**
+     * 获取屏幕旋转前滑动至的位置，默认0
+     */
+    private int scrollPos = 0;
 
     public GalleryItemDecoration getDecoration() {
         return mDecoration;
@@ -77,15 +88,28 @@ public class GalleryRecyclerView extends RecyclerView {
         }
         // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
         if (mFirstHasWindowFocus) {
-            if (hasWindowFocus) {
-                smoothScrollToPosition(0);
-            } else {
+            if (hasRotate) {
+                Log.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
+
+                // 如果是横竖屏切换，不应该走smoothScrollToPosition(0)，因为这个方法会导致ScrollManager的onHorizontalScroll不断执行，而ScrollManager.mConsumeX已经重置，会导致这个值紊乱
+                // 而如果走scrollToPosition(0)方法，则不会导致ScrollManager的onHorizontalScroll执行，所以ScrollManager.mConsumeX这个值不会错误
                 scrollToPosition(0);
+                // 但是因为不走ScrollManager的onHorizontalScroll，所以不会执行切换动画，所以就调用smoothScrollBy(int dx, int dy)，让item轻微滑动，触发动画
+                smoothScrollBy(1, 0);
+                smoothScrollBy(0, 0);
+
+                if (scrollPos > 1) {
+                    mScrollManager.updateConsume();
+                }
+            } else {
+                Log.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=false");
+
+                smoothScrollToPosition(0);
+                mScrollManager.updateConsume();
             }
 
             if (mScrollManager != null) {
                 mScrollManager.initScrollListener();
-                mScrollManager.updateConsume();
             }
 
             mFirstHasWindowFocus = false;
@@ -226,6 +250,28 @@ public class GalleryRecyclerView extends RecyclerView {
         }
     }
 
+    @Override
+    protected Parcelable onSaveInstanceState() {
+        DLog.w(TAG, "GalleryRecyclerView onSaveInstanceState()");
+
+        Bundle bundle = new Bundle();
+        Parcelable superData = super.onSaveInstanceState();
+        bundle.putParcelable("super_data", superData);
+        bundle.putBoolean("has_rotate", true);
+        bundle.putInt("scroll_pos", getScrolledPosition());
+        return bundle;
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Parcelable state) {
+        Bundle bundle = (Bundle) state;
+        Parcelable superData = bundle.getParcelable("super_data");
+        hasRotate = bundle.getBoolean("has_rotate");
+        scrollPos = bundle.getInt("scroll_pos");
+        super.onRestoreInstanceState(superData);
+
+        DLog.w(TAG, "GalleryRecyclerView onRestoreInstanceState() hasRotate=" + hasRotate + ";scrollPos=" + scrollPos);
+    }
 
     public interface OnItemClickListener {
         void onItemClick(View view, int position);
