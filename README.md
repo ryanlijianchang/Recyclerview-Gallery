@@ -9,7 +9,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.5'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.6'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -72,6 +72,12 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.0.6**
+
+1. BUG FIX By @[jefshi](https://github.com/jefshi)。去除单例，修复前后台切换后，位置不对的问题。
+2. BUG FIX By @[jefshi](https://github.com/jefshi)。修复接受到微信、QQ等消息通知后，图片高度不对问题。
+3. Gradle升级V4.4。
 
 **V1.0.5**
 
