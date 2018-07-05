@@ -1,6 +1,6 @@
 # README #
 
-[![Download](https://img.shields.io/badge/Download-1.0.7-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
+[![Download](https://img.shields.io/badge/Download-1.0.8-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
