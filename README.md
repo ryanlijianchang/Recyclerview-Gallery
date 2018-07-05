@@ -1,6 +1,6 @@
 # README #
 
-[![Download](https://img.shields.io/badge/Download-1.0.8-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
+[![Download](https://img.shields.io/badge/Download-V1.0.9-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
@@ -13,7 +13,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.8'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.0.9'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -76,6 +76,9 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.0.9**
+1. BUG FIX。修复滑动动画不顺畅问题。
 
 **V1.0.8**
 1. BUG FIX。修复从其他图片切换到第一张图片时抖动的问题。
