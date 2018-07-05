@@ -32,6 +32,12 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
     private Map<String, Drawable> mTSDraCacheMap = new HashMap<>();
     private static final String KEY_PRE_DRAW = "key_pre_draw";
 
+    /**
+     * 获取虚化背景的位置
+     */
+    private int mLastDraPosition = -1;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,15 +82,16 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
      */
     public void setBlurImage() {
         RecyclerAdapter adapter = (RecyclerAdapter) mRecyclerView.getAdapter();
+        final int mCurViewPosition = mRecyclerView.getScrolledPosition();
 
-        if (adapter == null || mRecyclerView == null) {
+        if (adapter == null || mRecyclerView == null || mCurViewPosition == mLastDraPosition) {
             return;
         }
         mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
                 // 获取当前位置的图片资源ID
-                int resourceId = ((RecyclerAdapter) mRecyclerView.getAdapter()).getResId(mRecyclerView.getScrolledPosition());
+                int resourceId = ((RecyclerAdapter) mRecyclerView.getAdapter()).getResId(mCurViewPosition);
                 // 将该资源图片转为Bitmap
                 Bitmap resBmp = BitmapFactory.decodeResource(getResources(), resourceId);
                 // 将该Bitmap高斯模糊后返回到resBlurBmp
@@ -102,6 +109,8 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
                 // 存入到cache中
                 mTSDraCacheMap.put(KEY_PRE_DRAW, resBlurDrawable);
+                // 记录上一次高斯模糊的位置
+                mLastDraPosition = mCurViewPosition;
             }
         });
     }
