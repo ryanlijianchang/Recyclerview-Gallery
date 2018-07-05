@@ -161,15 +161,16 @@ public class ScrollManager {
                 int position = getPosition(mConsumeX, shouldConsumeX);
                 mPosition = position == 0 ? 0 : itemPosition + 1;
 
-                if (position != 0)
+                if (position != 0) {
                     position = itemPosition + 1;
+                }
 
                 float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
 
                 // 避免offset值取整时进一，从而影响了percent值
-                if (offset >= itemPosition + 1 && slideDirct == SLIDE_RIGHT) {
+              /*  if (offset >= itemPosition + 1 && slideDirct == SLIDE_RIGHT) {
                     return;
-                }
+                }*/
 
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
@@ -177,7 +178,7 @@ public class ScrollManager {
                 DLog.i(TAG, "ScrollManager offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
 
                 // 设置动画变化
-                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, position, percent);
+                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, ((int) offset), percent);
             }
         });
 

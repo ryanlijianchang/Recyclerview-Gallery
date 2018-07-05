@@ -3,8 +3,6 @@ package com.ryan.rv_gallery;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
-import com.ryan.rv_gallery.util.DLog;
-
 /**
  * Created by RyanLee on 2017/12/12.
  */
@@ -41,36 +39,25 @@ public class AnimManager {
      */
     private void setBottomToTopAnim(RecyclerView recyclerView, int position, float percent) {
         View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
-        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
-        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 右边页
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 左边页
+        View mRRView = recyclerView.getLayoutManager().findViewByPosition(position + 2);    // 右右边页
 
-
-        if (percent <= 0.5) {
-            if (mLeftView != null) {
-                mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX(1 - percent * mAnimFactor);
-                mCurView.setScaleY(1 - percent * mAnimFactor);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
-        } else {
-            if (mLeftView != null) {
-                mLeftView.setScaleX(1 - percent * mAnimFactor);
-                mLeftView.setScaleY(1 - percent * mAnimFactor);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX(1 - percent * mAnimFactor);
-                mRightView.setScaleY(1 - percent * mAnimFactor);
-            }
+        if (mLeftView != null) {
+            mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
+            mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
+        }
+        if (mCurView != null) {
+            mCurView.setScaleX(1 - percent * mAnimFactor);
+            mCurView.setScaleY(1 - percent * mAnimFactor);
+        }
+        if (mRightView != null) {
+            mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
+            mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
+        }
+        if (mRRView != null) {
+            mRRView.setScaleX(1 - percent * mAnimFactor);
+            mRRView.setScaleY(1 - percent * mAnimFactor);
         }
     }
 
@@ -83,36 +70,25 @@ public class AnimManager {
      */
     private void setTopToBottomAnim(RecyclerView recyclerView, int position, float percent) {
         View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
-        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 左边页
-        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 右边页
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 右边页
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 左边页
+        View mLLView = recyclerView.getLayoutManager().findViewByPosition(position - 2);    // 左左边页
 
-        if (percent <= 0.5) {
-            if (mLeftView != null) {
-                mLeftView.setScaleX(1 - percent * mAnimFactor);
-                mLeftView.setScaleY(1 - percent * mAnimFactor);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX(1 - percent * mAnimFactor);
-                mRightView.setScaleY(1 - percent * mAnimFactor);
-            }
-
-        } else {
-            if (mLeftView != null) {
-                mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mLeftView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
-            if (mCurView != null) {
-                mCurView.setScaleX(1 - percent * mAnimFactor);
-                mCurView.setScaleY(1 - percent * mAnimFactor);
-            }
-            if (mRightView != null) {
-                mRightView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
-                mRightView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
-            }
+        if (mLeftView != null) {
+            mLeftView.setScaleX(1 - percent * mAnimFactor);
+            mLeftView.setScaleY(1 - percent * mAnimFactor);
+        }
+        if (mCurView != null) {
+            mCurView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
+            mCurView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
+        }
+        if (mRightView != null) {
+            mRightView.setScaleX(1 - percent * mAnimFactor);
+            mRightView.setScaleY(1 - percent * mAnimFactor);
+        }
+        if (mLLView != null) {
+            mLLView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
+            mLLView.setScaleY((1 - mAnimFactor) + percent * mAnimFactor);
         }
     }
 
