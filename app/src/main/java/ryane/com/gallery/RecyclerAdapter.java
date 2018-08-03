@@ -12,16 +12,17 @@ import com.ryan.rv_gallery.util.DLog;
 import java.util.List;
 
 /**
- * Created by RyanLee on 2017/12/7.
+ *
+ * @author RyanLee
+ * @date 2017/12/7
  */
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHolder> {
     private Context mContext;
     private List<Integer> mDatas;
-    private ViewGroup mParent;
 
 
-    public RecyclerAdapter(Context mContext, List<Integer> mDatas) {
+    RecyclerAdapter(Context mContext, List<Integer> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
     }
@@ -29,7 +30,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
     @Override
     public void onAttachedToRecyclerView(RecyclerView recyclerView) {
         DLog.d(MainActivity.TAG, "RecyclerAdapter onAttachedToRecyclerView");
-        this.mParent = recyclerView;
         super.onAttachedToRecyclerView(recyclerView);
     }
 
@@ -43,8 +43,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         DLog.d(MainActivity.TAG, "RecyclerAdapter onBindViewHolder" + "--> position = " + position);
-        // 需要增加此代码修改每一页的宽高
-        //GalleryAdapterHelper.newInstance().setItemLayoutParams(mParent, holder.itemView, position, getItemCount());
         holder.mView.setImageResource(mDatas.get(position));
     }
 
@@ -54,9 +52,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-        public final ImageView mView;
+        final ImageView mView;
 
-        public MyHolder(View itemView) {
+        MyHolder(View itemView) {
             super(itemView);
             mView = itemView.findViewById(R.id.iv_photo);
         }
@@ -64,8 +62,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
 
     /**
      * 获取position位置的resId
-     * @param position
-     * @return
+     * @param position int
+     * @return int
      */
     public int getResId(int position) {
         return mDatas == null ? 0 : mDatas.get(position);

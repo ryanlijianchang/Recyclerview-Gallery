@@ -12,8 +12,6 @@ import android.view.View;
 public class MainActivity extends AppCompatActivity {
     public static final String TAG = "MainActivity_TAG";
 
-    private FloatingActionButton mGalleryBtn, mBlankBtn;
-
     private GalleryFragment mGalleryFragment;
     private BlankFragment mBlankFragment;
 
@@ -23,8 +21,8 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mGalleryBtn = findViewById(R.id.fab_fragment_gallery);
-        mBlankBtn = findViewById(R.id.fab_fragment_blank);
+        FloatingActionButton mGalleryBtn = findViewById(R.id.fab_fragment_gallery);
+        FloatingActionButton mBlankBtn = findViewById(R.id.fab_fragment_blank);
 
         mGalleryFragment = GalleryFragment.newInstance();
         mBlankFragment = BlankFragment.newInstance();

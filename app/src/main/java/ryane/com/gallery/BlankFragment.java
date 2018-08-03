@@ -6,6 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+/**
+ * @author RyanLee
+ */
 public class BlankFragment extends Fragment {
     public static BlankFragment newInstance() {
         BlankFragment fragment = new BlankFragment();
