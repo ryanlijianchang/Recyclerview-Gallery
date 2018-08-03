@@ -53,9 +53,9 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
             }
 
             int position = getScrolledPosition();
-            int maxIndex = getAdapter().getItemCount() - 1;
+            int itemCount = getAdapter().getItemCount();
 
-            int newPosition = position + 1 % maxIndex;
+            int newPosition = (position + 1) % itemCount;
             smoothScrollToPosition(newPosition);
 
             ThreadUtils.removeCallbacks(this);
