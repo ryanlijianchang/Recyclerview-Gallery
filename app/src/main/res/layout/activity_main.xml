@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/rl_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
@@ -9,10 +8,39 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.ryan.rv_gallery.GalleryRecyclerView
-        android:id="@+id/rv_list"
+    <RelativeLayout
+        android:id="@+id/rl_container"
         android:layout_width="match_parent"
-        android:layout_height="480dp"
-        app:helper="PagerSnapHelper" />
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_fragment_gallery"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp10"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_a"
+        app:backgroundTint="#56abe4"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toTopOf="@id/fab_fragment_blank"
+        app:layout_constraintRight_toRightOf="parent"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="#56abe4" />
+
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_fragment_blank"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp10"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_b"
+        app:backgroundTint="#56abe4"
+        app:elevation="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="#56abe4" />
+</android.support.constraint.ConstraintLayout>

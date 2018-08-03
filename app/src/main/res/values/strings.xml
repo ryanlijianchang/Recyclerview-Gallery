@@ -16,4 +16,6 @@
         <item>@drawable/beauty12</item>
         <item>@drawable/beauty13</item>
     </integer-array>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

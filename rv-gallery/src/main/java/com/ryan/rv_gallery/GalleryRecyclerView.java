@@ -80,41 +80,6 @@ public class GalleryRecyclerView extends RecyclerView {
     @Override
     public void onWindowFocusChanged(boolean hasWindowFocus) {
         super.onWindowFocusChanged(hasWindowFocus);
-
-        DLog.d(TAG, "GalleryRecyclerView onWindowFocusChanged --> mFirstHasWindowFocus=" + mFirstHasWindowFocus + "; hasWindowFocus=" + hasWindowFocus);
-
-        if (getAdapter().getItemCount() <= 0) {
-            return;
-        }
-        // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
-        if (mFirstHasWindowFocus) {
-            if (hasRotate) {
-                DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
-
-                // 如果是横竖屏切换，不应该走smoothScrollToPosition(0)，因为这个方法会导致ScrollManager的onHorizontalScroll不断执行，而ScrollManager.mConsumeX已经重置，会导致这个值紊乱
-                // 而如果走scrollToPosition(0)方法，则不会导致ScrollManager的onHorizontalScroll执行，所以ScrollManager.mConsumeX这个值不会错误
-                scrollToPosition(0);
-                // 但是因为不走ScrollManager的onHorizontalScroll，所以不会执行切换动画，所以就调用smoothScrollBy(int dx, int dy)，让item轻微滑动，触发动画
-                smoothScrollBy(1, 0);
-                smoothScrollBy(0, 0);
-
-                if (scrollPos > 1) {
-                    // BUG FIX.滑动前两项时，横竖屏切换，触发scrollToPosition(0)时ScrollManager.mConsumeX值为0;而滑动超过两项时，ScrollManager.mConsumeX值不为0
-                    mScrollManager.updateConsume();
-                }
-            } else {
-                DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=false");
-
-                smoothScrollToPosition(0);
-                mScrollManager.updateConsume();
-            }
-
-            if (mScrollManager != null) {
-                mScrollManager.initScrollListener();
-            }
-
-            mFirstHasWindowFocus = false;
-        }
     }
 
 
@@ -217,6 +182,42 @@ public class GalleryRecyclerView extends RecyclerView {
         return this;
     }
 
+    public GalleryRecyclerView setUp() {
+
+        DLog.d(TAG, "GalleryRecyclerView onWindowFocusChanged --> mFirstHasWindowFocus=" + mFirstHasWindowFocus);
+
+        if (getAdapter().getItemCount() <= 0) {
+            return this;
+        }
+        // 第一次获得焦点后滑动至第0项，避免第0项的margin不对
+        if (hasRotate) {
+            DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
+
+            // 如果是横竖屏切换，不应该走smoothScrollToPosition(0)，因为这个方法会导致ScrollManager的onHorizontalScroll不断执行，而ScrollManager.mConsumeX已经重置，会导致这个值紊乱
+            // 而如果走scrollToPosition(0)方法，则不会导致ScrollManager的onHorizontalScroll执行，所以ScrollManager.mConsumeX这个值不会错误
+            scrollToPosition(0);
+            // 但是因为不走ScrollManager的onHorizontalScroll，所以不会执行切换动画，所以就调用smoothScrollBy(int dx, int dy)，让item轻微滑动，触发动画
+            smoothScrollBy(1, 0);
+            smoothScrollBy(0, 0);
+
+            if (scrollPos > 1) {
+                // BUG FIX.滑动前两项时，横竖屏切换，触发scrollToPosition(0)时ScrollManager.mConsumeX值为0;而滑动超过两项时，ScrollManager.mConsumeX值不为0
+                mScrollManager.updateConsume();
+            }
+        } else {
+            DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=false");
+
+            smoothScrollToPosition(0);
+            mScrollManager.updateConsume();
+        }
+
+        if (mScrollManager != null) {
+            mScrollManager.initScrollListener();
+        }
+
+        return this;
+    }
+
     public int getOrientation() {
 
         if (getLayoutManager() instanceof LinearLayoutManager) {
@@ -270,6 +271,20 @@ public class GalleryRecyclerView extends RecyclerView {
         hasRotate = bundle.getBoolean("has_rotate");
         scrollPos = bundle.getInt("scroll_pos");
         super.onRestoreInstanceState(superData);
+
+        DLog.e(TAG, "GalleryRecyclerView onWindowFocusChanged mFirstHasWindowFocus hasRotate=true; scrollPos=" + scrollPos);
+
+        // 如果是横竖屏切换，不应该走smoothScrollToPosition(0)，因为这个方法会导致ScrollManager的onHorizontalScroll不断执行，而ScrollManager.mConsumeX已经重置，会导致这个值紊乱
+        // 而如果走scrollToPosition(0)方法，则不会导致ScrollManager的onHorizontalScroll执行，所以ScrollManager.mConsumeX这个值不会错误
+        scrollToPosition(0);
+        // 但是因为不走ScrollManager的onHorizontalScroll，所以不会执行切换动画，所以就调用smoothScrollBy(int dx, int dy)，让item轻微滑动，触发动画
+        smoothScrollBy(10, 0);
+        smoothScrollBy(0, 0);
+
+        if (scrollPos > 1) {
+            // BUG FIX.滑动前两项时，横竖屏切换，触发scrollToPosition(0)时ScrollManager.mConsumeX值为0;而滑动超过两项时，ScrollManager.mConsumeX值不为0
+           // mScrollManager.updateConsume();
+        }
 
         DLog.w(TAG, "GalleryRecyclerView onRestoreInstanceState() hasRotate=" + hasRotate + ";scrollPos=" + scrollPos);
     }
