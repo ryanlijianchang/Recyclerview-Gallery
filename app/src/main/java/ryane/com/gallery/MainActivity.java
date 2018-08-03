@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author RyanLee
+ */
 public class MainActivity extends AppCompatActivity implements GalleryRecyclerView.OnItemClickListener {
     public static final String TAG = "MainActivity_TAG";
 
@@ -56,11 +59,19 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
-        mRecyclerView.initFlingSpeed(9000)                                   // 设置滑动速度（像素/s）
-                     .initPageParams(0, 60)     // 设置页边距和左右图片的可见宽度，单位dp
-                     .setAnimFactor(0.15f)                                   // 设置切换动画的参数因子
-                     .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
-                     .setOnItemClickListener(this);                          // 设置点击事件
+        mRecyclerView
+                // 设置滑动速度（像素/s）
+                .initFlingSpeed(9000)
+                // 设置页边距和左右图片的可见宽度，单位dp
+                .initPageParams(0, 60)
+                // 设置切换动画的参数因子
+                .setAnimFactor(0.15f)
+                // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
+                .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
+                // 设置点击事件
+                .setOnItemClickListener(this)
+                // 在设置完成之后，必须调用setUp()方法
+                .setUp();
 
 
         // 背景高斯模糊 & 淡入淡出
@@ -90,6 +101,11 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
         mRecyclerView.post(new Runnable() {
             @Override
             public void run() {
+                //如果是Fragment的话，需要判断Fragment是否Attach当前Activity，否则getResource会报错
+                /*if (!isAdded()) {
+                    // fix fragment not attached to Activity
+                    return;
+                }*/
                 // 获取当前位置的图片资源ID
                 int resourceId = ((RecyclerAdapter) mRecyclerView.getAdapter()).getResId(mCurViewPosition);
                 // 将该资源图片转为Bitmap

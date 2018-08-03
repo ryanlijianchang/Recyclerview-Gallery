@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="gallery_recyclerview">
+    <declare-styleable name="GalleryRecyclerView">
         <attr name="helper" format="string">
-            <enum name="LinearySnapHelper" value="0" />
+            <enum name="LinearSnapHelper" value="0" />
             <enum name="PagerSnapHelper" value="1" />
         </attr>
 
