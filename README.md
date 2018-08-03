@@ -1,6 +1,6 @@
 # README #
 
-[![Download](https://img.shields.io/badge/Download-V1.0.9-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
+[![Download](https://img.shields.io/badge/Download-V1.1.0-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
@@ -13,7 +13,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.0.9'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.1.0'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -28,12 +28,12 @@
 	    android:orientation="vertical">
 	
 		<!-- PagerSnapHelper一次只能滑动一页 -->
-		<!-- LinearySnapHelper一次能滑动多页 -->
+		<!-- LinearSnapHelper一次能滑动多页 -->
 	    <com.ryan.rv_gallery.GalleryRecyclerView
 	        android:id="@+id/rv_list"
 	        android:layout_width="match_parent"
 	        android:layout_height="480dp"
-        	app:helper="PagerSnapHelper/LinearySnapHelper" />
+        	app:helper="PagerSnapHelper/LinearSnapHelper" />
 
 	</RelativeLayout>
 
@@ -44,13 +44,37 @@
 	mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
     mRecyclerView.setAdapter(adapter);
 
-最后，指定`GalleryRecyclerView`的参数（非必须，不指定的话会使用默认值）。
+最后，指定`GalleryRecyclerView`的参数（非必须，不指定的话会使用默认值），最后必须调用setUp()方法才生效。
 	
-	mRecyclerView.initFlingSpeed(5000)                                   // 设置滑动速度（像素/s）
-	             .initPageParams(0, 60)     							 // 设置页边距和左右图片的可见宽度，单位dp
-	             .setAnimFactor(0.15f)                                   // 设置切换动画的参数因子
-	             .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
-	             .setOnItemClickListener(this);                          // 设置点击事件
+    mRecyclerView
+            // 设置滑动速度（像素/s）
+            .initFlingSpeed(9000)
+            // 设置页边距和左右图片的可见宽度，单位dp
+            .initPageParams(0, 60)
+            // 设置切换动画的参数因子
+            .setAnimFactor(0.15f)
+            // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
+            .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
+            // 设置点击事件
+            .setOnItemClickListener(this)
+            // 设置自动播放
+            .autoPlay(true)
+            // 设置自动播放间隔时间 ms
+            .intervalTime(2000)
+            // 在设置完成之后，必须调用setUp()方法
+            .setUp();
+
+在你需要释放资源的地方调用release()方法，释放资源：
+
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (mRecyclerView != null) {
+            // 释放资源
+            mRecyclerView.release();
+        }
+    }
 
 # API #
 
@@ -64,6 +88,8 @@
 6. `getScrolledPosition()`：获取当前位置
 7. `getLinearLayoutManager()`：获取LayoutManager
 8. `getOrientation()`：获取当前的滑动方向 HORIZONTAL:0 VERTICAL:1
+9. `autoPlay(boolean)`：是否自动播放
+10. `intervalTime(int interval)`：自动播放间隔时间，单位ms
 
 **XML API**
 
@@ -76,6 +102,10 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.1.0**
+1. BUG FIX。修复在Fragment上使用出现的异常问题。
+2. 增加自动播放接口。
 
 **V1.0.9**
 1. BUG FIX。修复滑动动画不顺畅问题。
