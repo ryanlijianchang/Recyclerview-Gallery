@@ -26,7 +26,7 @@ import java.util.Map;
 /**
  * @author RyanLee
  */
-public class MainActivity extends AppCompatActivity implements GalleryRecyclerView.OnItemClickListener {
+public class MainActivity extends AppCompatActivity implements GalleryRecyclerView.OnItemClickListener, RecyclerAdapter.OnItemPhotoChangedListener {
     public static final String TAG = "MainActivity_TAG";
 
     private GalleryRecyclerView mRecyclerView;
@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
      * 获取虚化背景的位置
      */
     private int mLastDraPosition = -1;
-
 
 
     @Override
@@ -56,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
 
         final RecyclerAdapter adapter = new RecyclerAdapter(MainActivity.this, getDatas());
+        adapter.setOnItemPhotoChangedListener(this);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
@@ -85,21 +85,23 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
                 super.onScrollStateChanged(recyclerView, newState);
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
-                    setBlurImage();
+                    setBlurImage(false);
                 }
             }
         });
-        setBlurImage();
+        setBlurImage(false);
     }
 
     /**
      * 设置背景高斯模糊
      */
-    public void setBlurImage() {
+    public void setBlurImage(boolean forceUpdate) {
         RecyclerAdapter adapter = (RecyclerAdapter) mRecyclerView.getAdapter();
         final int mCurViewPosition = mRecyclerView.getScrolledPosition();
 
-        if (adapter == null || mRecyclerView == null || mCurViewPosition == mLastDraPosition) {
+        boolean isSamePosAndNotUpdate = (mCurViewPosition == mLastDraPosition) && !forceUpdate;
+
+        if (adapter == null || mRecyclerView == null || isSamePosAndNotUpdate) {
             return;
         }
         mRecyclerView.post(new Runnable() {
@@ -196,5 +198,10 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
     @Override
     public void onItemClick(View view, int position) {
         Toast.makeText(getApplicationContext(), "position=" + position, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemPhotoChanged() {
+        setBlurImage(true);
     }
 }
