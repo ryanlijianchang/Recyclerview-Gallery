@@ -9,7 +9,9 @@ import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
- * Created by RyanLee on 2017/12/8.
+ *
+ * @author RyanLee
+ * @date 2017/12/8
  */
 
 public class ScrollManager {
@@ -19,26 +21,20 @@ public class ScrollManager {
 
     private int mPosition = 0;
 
-    // 使偏移量为左边距 + 左边Item的可视部分宽度
+    /**
+     * x方向消耗距离，使偏移量为左边距 + 左边Item的可视部分宽度
+     */
     private int mConsumeX = 0;
     private int mConsumeY = 0;
-    // 滑动方向
-    private int slideDirct = SLIDE_RIGHT;
 
-    private static final int SLIDE_LEFT = 1;    // 左滑
-    private static final int SLIDE_RIGHT = 2;   // 右滑
-    private static final int SLIDE_TOP = 3;     // 上滑
-    private static final int SLIDE_BOTTOM = 4;  // 下滑
-
-
-    public ScrollManager(GalleryRecyclerView mGalleryRecyclerView) {
+    ScrollManager(GalleryRecyclerView mGalleryRecyclerView) {
         this.mGalleryRecyclerView = mGalleryRecyclerView;
     }
 
     /**
      * 初始化SnapHelper
      *
-     * @param helper
+     * @param helper int
      */
     public void initSnapHelper(int helper) {
         switch (helper) {
@@ -75,8 +71,6 @@ public class ScrollManager {
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             DLog.d(TAG, "ScrollManager newState=" + newState);
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE) ;
-            // TODO mPosition 设置
         }
 
         @Override
@@ -94,17 +88,11 @@ public class ScrollManager {
     /**
      * 垂直滑动
      *
-     * @param recyclerView
-     * @param dy
+     * @param recyclerView RecyclerView
+     * @param dy int
      */
     private void onVerticalScroll(final RecyclerView recyclerView, int dy) {
         mConsumeY += dy;
-
-        if (dy > 0) {
-            slideDirct = SLIDE_BOTTOM;
-        } else {
-            slideDirct = SLIDE_TOP;
-        }
 
         // 让RecyclerView测绘完成后再调用，避免GalleryAdapterHelper.mItemHeight的值拿不到
         recyclerView.post(new Runnable() {
@@ -116,14 +104,12 @@ public class ScrollManager {
                 int position = getPosition(mConsumeY, shouldConsumeY);
                 mPosition = position == 0 ? 0 : itemPosition + 1;
 
-                if (position != 0)
+                if (position != 0) {
                     position = itemPosition + 1;
-
-                float offset = (float) mConsumeY / (float) shouldConsumeY;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
-                // 避免offset值取整时进一，从而影响了percent值
-                if (offset >= itemPosition + 1 && slideDirct == SLIDE_BOTTOM) {
-                    return;
                 }
+
+                // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+                float offset = (float) mConsumeY / (float) shouldConsumeY;
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
@@ -139,19 +125,11 @@ public class ScrollManager {
     /**
      * 水平滑动
      *
-     * @param recyclerView
-     * @param dx
+     * @param recyclerView RecyclerView
+     * @param dx int
      */
     private void onHorizontalScroll(final RecyclerView recyclerView, final int dx) {
         mConsumeX += dx;
-
-        if (dx > 0) {
-            // 右滑
-            slideDirct = SLIDE_RIGHT;
-        } else {
-            // 左滑
-            slideDirct = SLIDE_LEFT;
-        }
 
         // 让RecyclerView测绘完成后再调用，避免GalleryAdapterHelper.mItemWidth的值拿不到
         recyclerView.post(new Runnable() {
@@ -167,12 +145,8 @@ public class ScrollManager {
                     position = itemPosition + 1;
                 }
 
-                float offset = (float) mConsumeX / (float) shouldConsumeX;     // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
-
-                // 避免offset值取整时进一，从而影响了percent值
-              /*  if (offset >= itemPosition + 1 && slideDirct == SLIDE_RIGHT) {
-                    return;
-                }*/
+                // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
+                float offset = (float) mConsumeX / (float) shouldConsumeX;
 
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
@@ -191,11 +165,12 @@ public class ScrollManager {
      *
      * @param mConsumeX      实际消耗距离
      * @param shouldConsumeX 理论消耗距离
-     * @return
+     * @return int
      */
     private int getPosition(int mConsumeX, int shouldConsumeX) {
         float offset = (float) mConsumeX / (float) shouldConsumeX;
-        return Math.round(offset);        // 四舍五入获取位置
+        // 四舍五入获取位置
+        return Math.round(offset);
     }
 
     public int getPosition() {

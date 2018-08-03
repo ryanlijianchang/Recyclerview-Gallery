@@ -3,7 +3,9 @@ package com.ryan.rv_gallery.util;
 import android.util.Log;
 
 /**
- * Created by RyanLee on 2018/2/2.
+ *
+ * @author RyanLee
+ * @date 2018/2/2
  */
 
 public class DLog {
