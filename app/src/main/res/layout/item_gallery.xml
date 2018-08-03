@@ -11,8 +11,25 @@
     <ImageView
         android:id="@+id/iv_photo"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="480dp"
+        android:background="@drawable/beauty1"
         android:scaleType="centerCrop" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_change"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom"
+        android:layout_marginBottom="@dimen/dp15"
+        android:layout_marginEnd="@dimen/dp10"
+        android:layout_marginRight="@dimen/dp10"
+        android:clickable="true"
+        android:focusable="true"
+        android:src="@drawable/ic_change"
+        app:backgroundTint="#56abe4"
+        app:elevation="6dp"
+        app:pressedTranslationZ="12dp"
+        app:rippleColor="#56abe4" />
 
 
 </android.support.v7.widget.CardView>

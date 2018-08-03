@@ -55,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
         mContainer = findViewById(R.id.rl_container);
 
 
-        final RecyclerAdapter adapter = new RecyclerAdapter(getApplicationContext(), getDatas());
+        final RecyclerAdapter adapter = new RecyclerAdapter(MainActivity.this, getDatas());
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
         mRecyclerView.setAdapter(adapter);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
                 // 设置滑动速度（像素/s）
                 .initFlingSpeed(9000)
                 // 设置页边距和左右图片的可见宽度，单位dp
-                .initPageParams(0, 60)
+                .initPageParams(0, 80)
                 // 设置切换动画的参数因子
                 .setAnimFactor(0.15f)
                 // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
                 // 设置点击事件
                 .setOnItemClickListener(this)
                 // 设置自动播放
-                .autoPlay(true)
+                .autoPlay(false)
                 // 设置自动播放间隔时间 ms
                 .intervalTime(2000)
                 // 在设置完成之后，必须调用setUp()方法
