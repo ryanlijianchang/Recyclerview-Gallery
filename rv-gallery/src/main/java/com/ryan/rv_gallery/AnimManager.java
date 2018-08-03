@@ -4,7 +4,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Created by RyanLee on 2017/12/12.
+ *
+ * @author RyanLee
+ * @date 2017/12/12
  */
 
 public class AnimManager {
@@ -12,8 +14,14 @@ public class AnimManager {
     public static final int ANIM_BOTTOM_TO_TOP = 0;
     public static final int ANIM_TOP_TO_BOTTOM = 1;
 
-    private int mAnimType = ANIM_BOTTOM_TO_TOP; //动画类型
-    private float mAnimFactor = 0.2f;   //变化因子
+    /**
+     * 动画类型
+     */
+    private int mAnimType = ANIM_BOTTOM_TO_TOP;
+    /**
+     * 变化因子
+     */
+    private float mAnimFactor = 0.2f;
 
     public void setAnimation(RecyclerView recyclerView, int position, float percent) {
         switch (mAnimType) {
@@ -33,15 +41,19 @@ public class AnimManager {
     /**
      * 从下到上的动画效果
      *
-     * @param recyclerView
-     * @param position
-     * @param percent
+     * @param recyclerView RecyclerView
+     * @param position int
+     * @param percent float
      */
     private void setBottomToTopAnim(RecyclerView recyclerView, int position, float percent) {
-        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
-        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 右边页
-        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 左边页
-        View mRRView = recyclerView.getLayoutManager().findViewByPosition(position + 2);    // 右右边页
+        // 中间页
+        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);
+        // 右边页
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1);
+        // 左边页
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);
+        // 右右边页
+        View mRRView = recyclerView.getLayoutManager().findViewByPosition(position + 2);
 
         if (mLeftView != null) {
             mLeftView.setScaleX((1 - mAnimFactor) + percent * mAnimFactor);
@@ -64,15 +76,19 @@ public class AnimManager {
 
     /***
      * 从上到下的效果
-     * @param recyclerView
-     * @param position
-     * @param percent
+     * @param recyclerView RecyclerView
+     * @param position int
+     * @param percent int
      */
     private void setTopToBottomAnim(RecyclerView recyclerView, int position, float percent) {
-        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);       // 中间页
-        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1); // 右边页
-        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);  // 左边页
-        View mLLView = recyclerView.getLayoutManager().findViewByPosition(position - 2);    // 左左边页
+        // 中间页
+        View mCurView = recyclerView.getLayoutManager().findViewByPosition(position);
+        // 右边页
+        View mRightView = recyclerView.getLayoutManager().findViewByPosition(position + 1);
+        // 左边页
+        View mLeftView = recyclerView.getLayoutManager().findViewByPosition(position - 1);
+        // 左左边页
+        View mLLView = recyclerView.getLayoutManager().findViewByPosition(position - 2);
 
         if (mLeftView != null) {
             mLeftView.setScaleX(1 - percent * mAnimFactor);

@@ -5,7 +5,9 @@ import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
 /**
- * Created by RyanLee on 2017/11/29.
+ *
+ * @author RyanLee
+ * @date 2017/11/29
  */
 
 public class OsUtil {

@@ -10,21 +10,29 @@ import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
- * Created by RyanLee on 2017/12/14.
+ *
+ * @author RyanLee
+ * @date 2017/12/14
  */
 
 public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     private final String TAG = "MainActivity_TAG";
 
-    public int mPageMargin = 0;          // 每一个页面默认页边距
-    public int mLeftPageVisibleWidth = 50; // 中间页面左右两边的页面可见部分宽度
+    /**
+     *  每一个页面默认页边距
+     */
+    public int mPageMargin = 0;
+    /**
+     * 中间页面左右两边的页面可见部分宽度
+     */
+    public int mLeftPageVisibleWidth = 50;
 
     public int mItemConsumeY = 0;
     public int mItemConsumeX = 0;
 
     private GalleryRecyclerView.OnItemClickListener onItemClickListener;
 
-    public GalleryItemDecoration() {
+    GalleryItemDecoration() {
     }
 
     @Override
@@ -73,10 +81,10 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 设置水平滚动的参数
      *
-     * @param parent
-     * @param itemView
-     * @param position
-     * @param itemCount
+     * @param parent ViewGroup
+     * @param itemView View
+     * @param position  int
+     * @param itemCount int
      */
     private void onSetHorizontalParams(ViewGroup parent, View itemView, int position, int itemCount) {
         int itemNewWidth = parent.getWidth() - OsUtil.dpToPx(4 * mPageMargin + 2 * mLeftPageVisibleWidth);
@@ -97,13 +105,13 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 设置参数
      *
-     * @param itemView
-     * @param left
-     * @param top
-     * @param right
-     * @param bottom
-     * @param itemWidth
-     * @param itemHeight
+     * @param itemView View
+     * @param left int
+     * @param top int
+     * @param right int
+     * @param bottom int
+     * @param itemWidth int
+     * @param itemHeight int
      */
     private void setLayoutParams(View itemView, int left, int top, int right, int bottom, int itemWidth, int itemHeight) {
 
