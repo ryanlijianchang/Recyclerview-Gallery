@@ -3,13 +3,17 @@ package com.ryan.rv_gallery;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Parcelable;
+import android.support.annotation.FloatRange;
+import android.support.annotation.IntRange;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
+import com.ryan.baselib.util.ThreadUtils;
 import com.ryan.rv_gallery.util.DLog;
 
 /**
@@ -17,21 +21,47 @@ import com.ryan.rv_gallery.util.DLog;
  * @date 2017/12/8
  */
 
-public class GalleryRecyclerView extends RecyclerView {
+public class GalleryRecyclerView extends RecyclerView implements View.OnTouchListener {
 
     private static final String TAG = "MainActivity_TAG";
 
+    public static final int LINEAR_SNAP_HELPER = 0;
+    public static final int PAGER_SNAP_HELPER = 1;
     /**
      * 滑动速度
      */
     private int mFlingSpeed = 1000;
+    /**
+     * 是否自动播放
+     */
+    private boolean mAutoPlay = false;
+    /**
+     * 自动播放间隔时间
+     */
+    private int mInterval = 1000;
 
-    public static final int LINEAR_SNAP_HELPER = 0;
-    public static final int PAGER_SNAP_HELPER = 1;
 
     private AnimManager mAnimManager;
     private ScrollManager mScrollManager;
     private GalleryItemDecoration mDecoration;
+
+    private Runnable mAutoPlayTask = new Runnable() {
+        @Override
+        public void run() {
+            if (getAdapter() == null || getAdapter().getItemCount() <= 0) {
+                return;
+            }
+
+            int position = getScrolledPosition();
+            int maxIndex = getAdapter().getItemCount() - 1;
+
+            int newPosition = position + 1 % maxIndex;
+            smoothScrollToPosition(newPosition);
+
+            ThreadUtils.removeCallbacks(this);
+            ThreadUtils.runOnUiThread(this, mInterval);
+        }
+    };
 
     public GalleryItemDecoration getDecoration() {
         return mDecoration;
@@ -61,6 +91,9 @@ public class GalleryRecyclerView extends RecyclerView {
         mAnimManager = new AnimManager();
         attachDecoration();
         attachToRecyclerHelper(helper);
+
+        //设置触碰监听
+        setOnTouchListener(this);
     }
 
     @Override
@@ -134,7 +167,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @param speed int
      * @return GalleryRecyclerView
      */
-    public GalleryRecyclerView initFlingSpeed(int speed) {
+    public GalleryRecyclerView initFlingSpeed(@IntRange(from = 0) int speed) {
         this.mFlingSpeed = speed;
         return this;
     }
@@ -145,7 +178,7 @@ public class GalleryRecyclerView extends RecyclerView {
      * @param factor float
      * @return GalleryRecyclerView
      */
-    public GalleryRecyclerView setAnimFactor(float factor) {
+    public GalleryRecyclerView setAnimFactor(@FloatRange(from = 0f) float factor) {
         mAnimManager.setAnimFactor(factor);
         return this;
     }
@@ -173,6 +206,41 @@ public class GalleryRecyclerView extends RecyclerView {
         return this;
     }
 
+    /**
+     * 是否自动滚动
+     *
+     * @param auto boolean
+     * @return GalleryRecyclerView
+     */
+    public GalleryRecyclerView autoPlay(boolean auto) {
+        this.mAutoPlay = auto;
+        return this;
+    }
+
+    /**
+     * 自动播放
+     */
+    private void autoPlayGallery() {
+        if (mAutoPlay) {
+            ThreadUtils.removeCallbacks(mAutoPlayTask);
+            ThreadUtils.runOnUiThread(mAutoPlayTask, mInterval);
+        }
+    }
+
+    /**
+     * 移除自动播放Runnable
+     */
+    private void removeAutoPlayTask() {
+        if (mAutoPlay) {
+            ThreadUtils.removeCallbacks(mAutoPlayTask);
+        }
+    }
+
+    /**
+     * 装载
+     *
+     * @return GalleryRecyclerView
+     */
     public GalleryRecyclerView setUp() {
         if (getAdapter().getItemCount() <= 0) {
             return this;
@@ -185,7 +253,16 @@ public class GalleryRecyclerView extends RecyclerView {
             mScrollManager.initScrollListener();
         }
 
+        autoPlayGallery();
+
         return this;
+    }
+
+    /**
+     * 释放资源
+     */
+    public void release() {
+        removeAutoPlayTask();
     }
 
 
@@ -240,12 +317,43 @@ public class GalleryRecyclerView extends RecyclerView {
         smoothScrollBy(10, 0);
         smoothScrollBy(0, 0);
 
+        autoPlayGallery();
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                removeAutoPlayTask();
+                break;
+            case MotionEvent.ACTION_MOVE:
+                removeAutoPlayTask();
+                break;
+            case MotionEvent.ACTION_UP:
+                autoPlayGallery();
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * 播放间隔时间 ms
+     *
+     * @param interval int
+     * @return GalleryRecyclerView
+     */
+    public GalleryRecyclerView intervalTime(@IntRange(from = 10) int interval) {
+        this.mInterval = interval;
+        return this;
     }
 
     public interface OnItemClickListener {
         /**
          * 点击事件
-         * @param view  View
+         *
+         * @param view     View
          * @param position int
          */
         void onItemClick(View view, int position);

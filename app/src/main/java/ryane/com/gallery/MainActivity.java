@@ -70,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
                 .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
                 // 设置点击事件
                 .setOnItemClickListener(this)
+                // 设置自动播放
+                .autoPlay(true)
+                // 设置自动播放间隔时间 ms
+                .intervalTime(2000)
                 // 在设置完成之后，必须调用setUp()方法
                 .setUp();
 
@@ -181,8 +185,12 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
         DLog.d(TAG, "MainActivity onDestroy()");
+
+        if (mRecyclerView != null) {
+            // 释放资源
+            mRecyclerView.release();
+        }
     }
 
     @Override
