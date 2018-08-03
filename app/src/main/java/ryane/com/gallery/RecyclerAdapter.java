@@ -48,11 +48,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.MyHold
         holder.mChange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int randomNum = new Random().nextInt(4);
+                int randomNum = new Random().nextInt(9);
                 int[] res = {R.drawable.photo_nba1, R.drawable.photo_nba2, R.drawable.photo_nba3, R.drawable.photo_nba4,
                         R.drawable.photo_nba5, R.drawable.photo_nba6, R.drawable.photo_nba7, R.drawable.photo_nba8, R.drawable.photo_nba9};
                 mDatas.set(position, res[randomNum]);
-                notifyItemChanged(position);
+                notifyItemChanged(position, this.getClass().getName());
             }
         });
     }
