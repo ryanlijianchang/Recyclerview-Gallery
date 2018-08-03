@@ -42,13 +42,15 @@ public class ScrollManager {
      */
     public void initSnapHelper(int helper) {
         switch (helper) {
-            case GalleryRecyclerView.LinearySnapHelper:
+            case GalleryRecyclerView.LINEAR_SNAP_HELPER:
                 LinearSnapHelper mLinearSnapHelper = new LinearSnapHelper();
                 mLinearSnapHelper.attachToRecyclerView(mGalleryRecyclerView);
                 break;
-            case GalleryRecyclerView.PagerSnapHelper:
+            case GalleryRecyclerView.PAGER_SNAP_HELPER:
                 PagerSnapHelper mPagerSnapHelper = new PagerSnapHelper();
                 mPagerSnapHelper.attachToRecyclerView(mGalleryRecyclerView);
+                break;
+            default:
                 break;
         }
     }
@@ -73,7 +75,7 @@ public class ScrollManager {
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
             DLog.d(TAG, "ScrollManager newState=" + newState);
             super.onScrollStateChanged(recyclerView, newState);
-            if (newState == RecyclerView.SCROLL_STATE_IDLE);
+            if (newState == RecyclerView.SCROLL_STATE_IDLE) ;
             // TODO mPosition 设置
         }
 
