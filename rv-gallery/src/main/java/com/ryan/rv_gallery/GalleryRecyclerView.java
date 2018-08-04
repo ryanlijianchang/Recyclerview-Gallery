@@ -145,6 +145,7 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
         DLog.d(TAG, "GalleryRecyclerView attachToRecyclerHelper");
 
         mScrollManager = new ScrollManager(this);
+        mScrollManager.initScrollListener();
         mScrollManager.initSnapHelper(helper);
     }
 
@@ -248,10 +249,6 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
 
         smoothScrollToPosition(0);
         mScrollManager.updateConsume();
-
-        if (mScrollManager != null) {
-            mScrollManager.initScrollListener();
-        }
 
         autoPlayGallery();
 
