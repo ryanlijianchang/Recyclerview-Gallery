@@ -15,4 +15,14 @@
         android:layout_height="540dp"
         app:helper="LinearSnapHelper" />
 
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@style/Base.Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/dp30"
+        android:max="12"
+        android:progress="1" />
+
 </RelativeLayout>

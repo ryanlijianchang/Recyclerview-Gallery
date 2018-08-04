@@ -12,6 +12,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Toast;
 
 import com.ryan.rv_gallery.AnimManager;
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
     private GalleryRecyclerView mRecyclerView;
     private RelativeLayout mContainer;
+    private SeekBar mSeekbar;
 
     private Map<String, Drawable> mTSDraCacheMap = new HashMap<>();
     private static final String KEY_PRE_DRAW = "key_pre_draw";
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
         mRecyclerView = findViewById(R.id.rv_list);
         mContainer = findViewById(R.id.rl_container);
+        mSeekbar = findViewById(R.id.seekBar);
 
 
         final RecyclerAdapter adapter = new RecyclerAdapter(MainActivity.this, getDatas());
@@ -88,10 +91,29 @@ public class MainActivity extends AppCompatActivity implements GalleryRecyclerVi
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE) {
                     setBlurImage(false);
+
+                    mSeekbar.setProgress(mRecyclerView.getScrolledPosition());
                 }
             }
         });
         setBlurImage(false);
+
+        mSeekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                mRecyclerView.smoothScrollToPosition(progress);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
     }
 
     /**
