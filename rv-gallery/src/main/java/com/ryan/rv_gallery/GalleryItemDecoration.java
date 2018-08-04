@@ -10,7 +10,6 @@ import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
- *
  * @author RyanLee
  * @date 2017/12/14
  */
@@ -19,7 +18,7 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     private final String TAG = "MainActivity_TAG";
 
     /**
-     *  每一个页面默认页边距
+     * 每一个页面默认页边距
      */
     public int mPageMargin = 0;
     /**
@@ -31,6 +30,8 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     public int mItemConsumeX = 0;
 
     private GalleryRecyclerView.OnItemClickListener onItemClickListener;
+
+    private OnItemSizeMeasuredListener mOnItemSizeMeasuredListener;
 
     GalleryItemDecoration() {
     }
@@ -71,6 +72,10 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
 
         mItemConsumeY = itemNewHeight + OsUtil.dpToPx(2 * mPageMargin);
 
+        if (mOnItemSizeMeasuredListener != null) {
+            mOnItemSizeMeasuredListener.onItemSizeMeasured(mItemConsumeY);
+        }
+
         // 适配第0页和最后一页没有左页面和右页面，让他们保持左边距和右边距和其他项一样
         int topMargin = position == 0 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
         int bottomMargin = position == itemCount - 1 ? OsUtil.dpToPx(mLeftPageVisibleWidth + 2 * mPageMargin) : OsUtil.dpToPx(mPageMargin);
@@ -81,8 +86,8 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 设置水平滚动的参数
      *
-     * @param parent ViewGroup
-     * @param itemView View
+     * @param parent    ViewGroup
+     * @param itemView  View
      * @param position  int
      * @param itemCount int
      */
@@ -91,6 +96,10 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
         int itemNewHeight = parent.getHeight();
 
         mItemConsumeX = itemNewWidth + OsUtil.dpToPx(2 * mPageMargin);
+
+        if (mOnItemSizeMeasuredListener != null) {
+            mOnItemSizeMeasuredListener.onItemSizeMeasured(mItemConsumeX);
+        }
 
         DLog.d(TAG, "GalleryItemDecoration onSetHorizontalParams -->" + "parent.width=" + parent.getWidth() + ";mPageMargin=" + OsUtil.dpToPx(mPageMargin)
                 + ";mLeftVis=" + OsUtil.dpToPx(mLeftPageVisibleWidth) + ";itemNewWidth=" + itemNewWidth);
@@ -105,12 +114,12 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
     /**
      * 设置参数
      *
-     * @param itemView View
-     * @param left int
-     * @param top int
-     * @param right int
-     * @param bottom int
-     * @param itemWidth int
+     * @param itemView   View
+     * @param left       int
+     * @param top        int
+     * @param right      int
+     * @param bottom     int
+     * @param itemWidth  int
      * @param itemHeight int
      */
     private void setLayoutParams(View itemView, int left, int top, int right, int bottom, int itemWidth, int itemHeight) {
@@ -145,5 +154,17 @@ public class GalleryItemDecoration extends RecyclerView.ItemDecoration {
 
     public void setOnItemClickListener(GalleryRecyclerView.OnItemClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
+    }
+
+    public void setOnItemSizeMeasuredListener(OnItemSizeMeasuredListener itemSizeMeasuredListener) {
+        this.mOnItemSizeMeasuredListener = itemSizeMeasuredListener;
+    }
+
+    interface OnItemSizeMeasuredListener {
+        /**
+         * Item的大小测量完成
+         * @param size int
+         */
+        void onItemSizeMeasured(int size);
     }
 }

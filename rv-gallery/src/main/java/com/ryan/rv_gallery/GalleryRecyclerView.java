@@ -21,7 +21,7 @@ import com.ryan.rv_gallery.util.DLog;
  * @date 2017/12/8
  */
 
-public class GalleryRecyclerView extends RecyclerView implements View.OnTouchListener {
+public class GalleryRecyclerView extends RecyclerView implements View.OnTouchListener, GalleryItemDecoration.OnItemSizeMeasuredListener {
 
     private static final String TAG = "MainActivity_TAG";
 
@@ -39,6 +39,8 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
      * 自动播放间隔时间
      */
     private int mInterval = 1000;
+
+    private int mInitPos = -1;
 
 
     private AnimManager mAnimManager;
@@ -111,6 +113,7 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
         DLog.d(TAG, "GalleryRecyclerView attachDecoration");
 
         mDecoration = new GalleryItemDecoration();
+        mDecoration.setOnItemSizeMeasuredListener(this);
         addItemDecoration(mDecoration);
     }
 
@@ -344,6 +347,23 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
     public GalleryRecyclerView intervalTime(@IntRange(from = 10) int interval) {
         this.mInterval = interval;
         return this;
+    }
+
+    public GalleryRecyclerView initPosition(int i) {
+        mInitPos = i;
+        return this;
+    }
+
+    @Override
+    public void onItemSizeMeasured(int size) {
+        if (mInitPos >= 0) {
+            if (getOrientation() == LinearLayoutManager.HORIZONTAL) {
+                smoothScrollBy(mInitPos * size, 0);
+            } else {
+                smoothScrollBy(0, mInitPos * size);
+            }
+            mInitPos = -1;
+        }
     }
 
     public interface OnItemClickListener {
