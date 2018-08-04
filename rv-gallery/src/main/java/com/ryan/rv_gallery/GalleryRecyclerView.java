@@ -279,19 +279,6 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
         }
     }
 
-    public LinearLayoutManager getLinearLayoutManager() {
-        if (getLayoutManager() instanceof LinearLayoutManager) {
-            if (getLayoutManager() instanceof GridLayoutManager) {
-                throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
-
-            } else {
-                return (LinearLayoutManager) getLayoutManager();
-            }
-        } else {
-            throw new RuntimeException("请设置LayoutManager为LinearLayoutManager");
-        }
-    }
-
     public int getScrolledPosition() {
         if (mScrollManager == null) {
             return 0;
@@ -349,7 +336,17 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
         return this;
     }
 
-    public GalleryRecyclerView initPosition(int i) {
+    /**
+     * 开始处于的位置
+     * @param i int
+     * @return GalleryRecyclerView
+     */
+    public GalleryRecyclerView initPosition(@IntRange(from = 0) int i) {
+        if (i >= getAdapter().getItemCount()) {
+            i = getAdapter().getItemCount() - 1;
+        } else if (i < 0) {
+            i = 0;
+        }
         mInitPos = i;
         return this;
     }
