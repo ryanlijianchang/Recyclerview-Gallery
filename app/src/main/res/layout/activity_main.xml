@@ -13,6 +13,6 @@
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
         android:layout_height="540dp"
-        app:helper="PagerSnapHelper" />
+        app:helper="LinearSnapHelper" />
 
 </RelativeLayout>

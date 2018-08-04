@@ -9,7 +9,6 @@ import com.ryan.rv_gallery.util.DLog;
 import com.ryan.rv_gallery.util.OsUtil;
 
 /**
- *
  * @author RyanLee
  * @date 2017/12/8
  */
@@ -89,7 +88,7 @@ public class ScrollManager {
      * 垂直滑动
      *
      * @param recyclerView RecyclerView
-     * @param dy int
+     * @param dy           int
      */
     private void onVerticalScroll(final RecyclerView recyclerView, int dy) {
         mConsumeY += dy;
@@ -99,25 +98,19 @@ public class ScrollManager {
             @Override
             public void run() {
                 int shouldConsumeY = mGalleryRecyclerView.getDecoration().mItemConsumeY;
-                // 获取当前的位置
-                int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
-                int position = getPosition(mConsumeY, shouldConsumeY);
-                mPosition = position == 0 ? 0 : itemPosition + 1;
-
-                if (position != 0) {
-                    position = itemPosition + 1;
-                }
 
                 // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
                 float offset = (float) mConsumeY / (float) shouldConsumeY;
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-                DLog.i(TAG, "ScrollManager offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + shouldConsumeY);
+                mPosition = (int) offset;
+
+                DLog.i(TAG, "ScrollManager offset=" + offset + "; mConsumeY=" + mConsumeY + "; shouldConsumeY=" + mPosition);
 
 
                 // 设置动画变化
-                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, position, percent);
+                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, mPosition, percent);
             }
         });
     }
@@ -126,7 +119,7 @@ public class ScrollManager {
      * 水平滑动
      *
      * @param recyclerView RecyclerView
-     * @param dx int
+     * @param dx           int
      */
     private void onHorizontalScroll(final RecyclerView recyclerView, final int dx) {
         mConsumeX += dx;
@@ -136,14 +129,6 @@ public class ScrollManager {
             @Override
             public void run() {
                 int shouldConsumeX = mGalleryRecyclerView.getDecoration().mItemConsumeX;
-                // 获取当前的位置
-                int itemPosition = mGalleryRecyclerView.getLinearLayoutManager().findFirstVisibleItemPosition();
-                int position = getPosition(mConsumeX, shouldConsumeX);
-                mPosition = position == 0 ? 0 : itemPosition + 1;
-
-                if (position != 0) {
-                    position = itemPosition + 1;
-                }
 
                 // 位置浮点值（即总消耗距离 / 每一页理论消耗距离 = 一个浮点型的位置值）
                 float offset = (float) mConsumeX / (float) shouldConsumeX;
@@ -151,26 +136,15 @@ public class ScrollManager {
                 // 获取当前页移动的百分值
                 float percent = offset - ((int) offset);
 
-                DLog.i(TAG, "ScrollManager offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + position);
+                mPosition = (int) offset;
+
+                DLog.i(TAG, "ScrollManager offset=" + offset + "; percent=" + percent + "; mConsumeX=" + mConsumeX + "; shouldConsumeX=" + shouldConsumeX + "; position=" + mPosition);
 
                 // 设置动画变化
-                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, ((int) offset), percent);
+                mGalleryRecyclerView.getAnimManager().setAnimation(recyclerView, mPosition, percent);
             }
         });
 
-    }
-
-    /**
-     * 获取位置
-     *
-     * @param mConsumeX      实际消耗距离
-     * @param shouldConsumeX 理论消耗距离
-     * @return int
-     */
-    private int getPosition(int mConsumeX, int shouldConsumeX) {
-        float offset = (float) mConsumeX / (float) shouldConsumeX;
-        // 四舍五入获取位置
-        return Math.round(offset);
     }
 
     public int getPosition() {
