@@ -12,7 +12,7 @@
     <com.ryan.rv_gallery.GalleryRecyclerView
         android:id="@+id/rv_list"
         android:layout_width="match_parent"
-        android:layout_height="700dp"
+        android:layout_height="540dp"
         app:helper="PagerSnapHelper" />
 
 </RelativeLayout>
