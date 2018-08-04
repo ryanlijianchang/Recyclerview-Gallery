@@ -1,6 +1,6 @@
 # README #
 
-[![Download](https://img.shields.io/badge/Download-V1.1.0-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
+[![Download](https://img.shields.io/badge/Download-V1.1.1-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
@@ -15,7 +15,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.1.0'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.1.1'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -47,22 +47,24 @@
     mRecyclerView.setAdapter(adapter);
 
 最后，指定`GalleryRecyclerView`的参数（非必须，不指定的话会使用默认值），最后必须调用setUp()方法才生效。
-	
+
     mRecyclerView
             // 设置滑动速度（像素/s）
             .initFlingSpeed(9000)
             // 设置页边距和左右图片的可见宽度，单位dp
-            .initPageParams(0, 60)
+            .initPageParams(0, 40)
             // 设置切换动画的参数因子
-            .setAnimFactor(0.15f)
+            .setAnimFactor(0.1f)
             // 设置切换动画类型，目前有AnimManager.ANIM_BOTTOM_TO_TOP和目前有AnimManager.ANIM_TOP_TO_BOTTOM
             .setAnimType(AnimManager.ANIM_BOTTOM_TO_TOP)
             // 设置点击事件
             .setOnItemClickListener(this)
             // 设置自动播放
-            .autoPlay(true)
+            .autoPlay(false)
             // 设置自动播放间隔时间 ms
             .intervalTime(2000)
+            // 设置初始化的位置
+            .initPosition(1)
             // 在设置完成之后，必须调用setUp()方法
             .setUp();
 
@@ -92,10 +94,11 @@
 8. `getOrientation()`：获取当前的滑动方向 HORIZONTAL:0 VERTICAL:1
 9. `autoPlay(boolean)`：是否自动播放
 10. `intervalTime(int interval)`：自动播放间隔时间，单位ms
+11. `initPosition(int position)`：开始处于的位置
 
 **XML API**
 
-1. `app:helper="PagerSnapHelper/LinearySnapHelper"`：PagerSnapHelper一次只能滑动一页，LinearySnapHelper一次滑动多页。
+1. `app:helper="PagerSnapHelper/LinearSnapHelper"`：PagerSnapHelper一次只能滑动一页，LinearSnapHelper一次滑动多页。
 
 # 实现 #
 
@@ -105,17 +108,26 @@
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
 
+**V1.1.1**
+
+1. BUG FIX。修复第一次初始化时设置默认位置不对的问题。提供接口initPosition(int pos)设置初始位置，初始后可以直接调用smoothScrollToPosition(int pos)移动到需要的位置。
+2. 更换设置ScrollListener时机。
+
 **V1.1.0**
+
 1. BUG FIX。修复在Fragment上使用出现的异常问题。
 2. 增加自动播放接口。
 
 **V1.0.9**
+
 1. BUG FIX。修复滑动动画不顺畅问题。
 
 **V1.0.8**
+
 1. BUG FIX。修复从其他图片切换到第一张图片时抖动的问题。
 
 **V1.0.7**
+
 1. BUG FIX。修复横竖屏切换时UI异常问题。
 
 **V1.0.6**
