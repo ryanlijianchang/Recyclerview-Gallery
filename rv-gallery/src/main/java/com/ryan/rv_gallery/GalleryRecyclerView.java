@@ -338,6 +338,7 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
 
     /**
      * 开始处于的位置
+     *
      * @param i int
      * @return GalleryRecyclerView
      */
@@ -353,14 +354,17 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
 
     @Override
     public void onItemSizeMeasured(int size) {
-        if (mInitPos >= 0) {
+        if (mInitPos < 0) return;
+        if (mInitPos == 0) {
+            scrollToPosition(0);
+        } else {
             if (getOrientation() == LinearLayoutManager.HORIZONTAL) {
                 smoothScrollBy(mInitPos * size, 0);
             } else {
                 smoothScrollBy(0, mInitPos * size);
             }
-            mInitPos = -1;
         }
+        mInitPos = -1;
     }
 
     public interface OnItemClickListener {
