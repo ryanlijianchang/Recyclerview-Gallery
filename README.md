@@ -1,6 +1,6 @@
 # README #
 
-[![Download](https://img.shields.io/badge/Download-V1.1.1-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
+[![Download](https://img.shields.io/badge/Download-V1.1.2-blue.svg)](https://bintray.com/ryanlijianchang/maven/RecyclerView-Gallery)
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
@@ -15,7 +15,7 @@
 
 首先，在你的`build.gradle`中添加依赖。
 
-    compile 'com.ryan.rv_gallery:rv-gallery:1.1.1'
+    compile 'com.ryan.rv_gallery:rv-gallery:1.1.2'
 
 第二，在你的layout文件中使用`GalleryRecyclerView`。
 
@@ -107,6 +107,9 @@
 # 版本特性 #
 
 查看更多，请转移至[Releases](https://github.com/ryanlijianchang/Recyclerview-Gallery/releases)。
+
+**V1.1.2**
+1. BUG FIX。Fix By @[tingshuonitiao](https://github.com/tingshuonitiao)修复第一次进入时第0张图片leftPageVisibleWidth不展示的bug
 
 **V1.1.1**
 
