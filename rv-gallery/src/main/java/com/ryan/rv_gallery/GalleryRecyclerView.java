@@ -354,7 +354,9 @@ public class GalleryRecyclerView extends RecyclerView implements View.OnTouchLis
 
     @Override
     public void onItemSizeMeasured(int size) {
-        if (mInitPos < 0) return;
+        if (mInitPos < 0) {
+            return;
+        }
         if (mInitPos == 0) {
             scrollToPosition(0);
         } else {
