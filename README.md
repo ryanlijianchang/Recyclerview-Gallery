@@ -89,7 +89,7 @@ You also can release `GalleryRecyclerView` if you need
 
 1. `initFlingSpeed(int speed)`：set scroll speed（pixel/s）
 2. `setAnimFactor(float factor)`：set the animation factor
-3. `setAnimType(int type)`：set animation type. you can choose AnimManager.ANIM_BOTTOM_TO_TOP or AnimManager.ANIM_TOP_TO_BOTTOM
+3. `setAnimType(int type)`：set animation type. you can choose `AnimManager.ANIM_BOTTOM_TO_TOP` or `AnimManager.ANIM_TOP_TO_BOTTOM`
 4. `setOnItemClickListener(OnItemClickListener mListener)`：set click listener
 5. `initPageParams(int pageMargin, int leftPageVisibleWidth)`：set page distance and visible distance of the nearby.
 6. `getScrolledPosition()`： get current position
