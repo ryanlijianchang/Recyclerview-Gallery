@@ -6,8 +6,6 @@
 
 [中文版文档](https://github.com/ryanlijianchang/Recyclerview-Gallery/blob/master/README_CN.md)
 
-使用RecyclerView实现Gallery效果。实现效果如下：
-
 This library shows you a gallery using RecyclerView.
 
 ![小清新的Gallery水平滑动效果](http://onq81n53u.bkt.clouddn.com/testcvcccc.gif)
