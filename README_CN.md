@@ -4,8 +4,6 @@
 [![License](https://img.shields.io/badge/license-Apache2.0-green.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 [![Build](https://img.shields.io/circleci/project/github/RedSparr0w/node-csgo-parser.svg)](https://github.com/ryanlijianchang/Recyclerview-Gallery)
 
-中文版文档
-
 使用RecyclerView实现Gallery效果。实现效果如下：
 
 ![小清新的Gallery水平滑动效果](http://onq81n53u.bkt.clouddn.com/testcvcccc.gif)
