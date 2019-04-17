@@ -23,6 +23,6 @@ android {
 }
 
 dependencies {
-    implementation 'com.ryan.base-lib:base-lib:0.0.4'
+    implementation 'com.ryan.base-lib:base-lib:0.0.6'
     implementation project(':rv-gallery')
 }
